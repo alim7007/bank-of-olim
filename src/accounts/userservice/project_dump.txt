@@ -1,0 +1,440 @@
+############## PROJECT TREE ##############
+
+/Users/_alim_lucky/Desktop/myfiles/bank-of-olim/src/accounts/userservice
+├── __init__.py
+├── db.py
+├── Dockerfile
+├── k8s
+│   ├── base
+│   │   ├── add-private-key-volume.yaml
+│   │   ├── kustomization.yaml
+│   │   └── userservice.yaml
+│   └── overlays
+│       ├── development
+│       │   └── kustomization.yaml
+│       ├── production
+│       │   └── kustomization.yaml
+│       ├── production-fwi
+│       │   └── kustomization.yaml
+│       └── staging
+│           └── kustomization.yaml
+├── logging.conf
+├── pyproject.toml
+├── README.md
+├── skaffold.yaml
+├── tests
+│   ├── __init__.py
+│   ├── constants.py
+│   ├── test_db.py
+│   └── test_userservice.py
+├── userservice.py
+└── uv.lock
+
+9 directories, 20 files
+
+
+############## Dockerfile ##############
+
+# Copyright 2021 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Use the official Python docker container, slim version, running Debian
+FROM python:3.14.6-slim@sha256:44dd04494ee8f3b538294360e7c4b3acb87c8268e4d0a4828a6500b1eff50061 AS base
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /bin/uv
+
+FROM base AS builder
+
+# Set working directory
+WORKDIR /app
+
+# Install dependencies.
+COPY pyproject.toml uv.lock ./
+RUN uv sync --frozen --no-dev --no-install-project
+
+FROM base
+
+# Set our working directory
+WORKDIR /app
+
+COPY --from=builder /app/.venv /app/.venv
+ENV PATH="/app/.venv/bin:$PATH"
+
+# show python logs as they occur
+ENV PYTHONUNBUFFERED=0
+
+# explicitly set a fallback log level in case no log level is defined by Kubernetes
+ENV LOG_LEVEL=info
+
+# Add application code.
+COPY . .
+
+# Ensure files are readable for non-root users
+RUN chmod a+r *
+
+# Start server using gunicorn
+CMD gunicorn -b :$PORT --threads 2 --log-config logging.conf --log-level=$LOG_LEVEL "userservice:create_app()"
+
+
+############## k8s/base/add-private-key-volume.yaml ##############
+
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+- op: add
+  path: /spec/template/spec/volumes/-
+  value:
+    name: keys
+    secret:
+      secretName: jwt-key
+      items:
+      - key: jwtRS256.key
+        path: privatekey
+      - key: jwtRS256.key.pub
+        path: publickey
+- op: add
+  path: /spec/template/spec/containers/0/volumeMounts/-
+  value:
+    name: keys
+    mountPath: "/tmp/.ssh"
+    readOnly: true
+
+############## k8s/base/kustomization.yaml ##############
+
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - userservice.yaml
+components:
+  - ../../../components/accounts
+  - ../../../../components/backend-service
+patches:
+  - target:
+      kind: Deployment
+    path: add-private-key-volume.yaml
+
+############## k8s/base/userservice.yaml ##############
+
+# Copyright 2021 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: userservice
+spec:
+  selector:
+    matchLabels:
+      app: userservice
+  template:
+    metadata:
+      labels:
+        app: userservice
+    spec:
+      serviceAccountName: default
+      terminationGracePeriodSeconds: 5
+      securityContext:
+        fsGroup: 1000
+        runAsGroup: 1000
+        runAsNonRoot: true
+        runAsUser: 1000
+      containers:
+      - name: userservice
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - all
+          privileged: false
+          readOnlyRootFilesystem: true
+        image: userservice
+        ports:
+        - name: http-server
+          containerPort: 8080
+        env:
+        - name: VERSION
+          value: "dev"
+        - name: PORT
+          value: "8080"
+        - name: ENABLE_TRACING
+          value: "true"
+        - name: TOKEN_EXPIRY_SECONDS
+          value: "3600"
+        - name: PRIV_KEY_PATH
+          value: "/tmp/.ssh/privatekey"
+        # Valid levels are debug, info, warning, error, critical. If no valid level is set, gunicorn will default to info.
+        - name: LOG_LEVEL
+          value: "info"
+        envFrom:
+        - configMapRef:
+            name: environment-config
+        - configMapRef:
+            name: accounts-db-config
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 8080
+          initialDelaySeconds: 10
+          periodSeconds: 5
+          timeoutSeconds: 10
+        resources:
+          requests:
+            cpu: 260m
+            memory: 128Mi
+            ephemeral-storage: 0.25Gi
+          limits:
+            cpu: 500m
+            memory: 256Mi
+            ephemeral-storage: 0.25Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: userservice
+spec:
+  type: ClusterIP
+  selector:
+    app: userservice
+  ports:
+  - name: http
+    port: 8080
+    targetPort: 8080
+
+############## k8s/overlays/development/kustomization.yaml ##############
+
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../base
+components:
+  - ../../../../../components/development
+
+############## k8s/overlays/production-fwi/kustomization.yaml ##############
+
+# Copyright 2024 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../base
+components:
+  - ../../../../../components/production
+  - ../../../../../components/backend-fwi
+  - ../../../../../components/cloud-sql-fwi
+
+
+############## k8s/overlays/production/kustomization.yaml ##############
+
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../base
+components:
+  - ../../../../../components/production
+  - ../../../../../components/cloud-sql
+
+############## k8s/overlays/staging/kustomization.yaml ##############
+
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../base
+components:
+  - ../../../../../components/staging
+  - ../../../../../components/cloud-sql
+
+############## skaffold.yaml ##############
+
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: skaffold/v4beta1
+kind: Config
+metadata:
+  name: userservice
+requires:
+- configs:
+  - e2e-tests
+  path: ../../../skaffold-e2e.yaml
+- configs:
+  - accounts-db
+  path: ../accounts-db/skaffold.yaml
+build:
+  artifacts:
+  - image: userservice
+    context: .
+  tagPolicy:
+    sha256: {}
+test:
+  - image: userservice # code style
+    context: .
+    custom:
+      - command: |
+          uv run pylint --rcfile=../../../.pylintrc *.py
+        timeoutSeconds: 1200
+        dependencies: 
+          paths:
+            - "**/*.py"
+            - "../../../.pylintrc"
+            - "pyproject.toml"
+            - "uv.lock"
+  - image: userservice # unit tests
+    context: .
+    custom:
+      - command: |
+          uv run pytest -v -p no:warnings
+        timeoutSeconds: 1200
+        dependencies: 
+          paths:
+            - "**/*.py"
+            - "pyproject.toml"
+            - "uv.lock"
+  - image: userservice # code coverage
+    context: .
+    custom:
+      - command: |
+          uv run pytest --cov=./ tests/
+        timeoutSeconds: 1200
+        dependencies: 
+          paths:
+            - "**/*.py"
+            - "pyproject.toml"
+            - "uv.lock"
+deploy:
+  kubectl: {}
+profiles:
+- name: development
+  activation:
+  - command: dev
+  manifests:
+    kustomize:
+      paths:
+      - k8s/overlays/development
+      - ../../../iac/acm-multienv-cicd-anthos-autopilot/overlays/development
+- name: staging
+  manifests:
+    kustomize:
+      paths:
+      - k8s/overlays/staging
+- name: production
+  manifests:
+    kustomize:
+      paths:
+      - k8s/overlays/production
+- name: production-fwi
+  manifests:
+    kustomize:
+      paths:
+      - k8s/overlays/production-fwi
+

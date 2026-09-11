@@ -1,0 +1,5531 @@
+############## PROJECT TREE ##############
+
+/Users/_alim_lucky/Desktop/myfiles/bank-of-olim/src
+├── accounts
+│   ├── accounts-db
+│   │   ├── Dockerfile
+│   │   ├── initdb
+│   │   │   ├── 0-accounts-schema.sql
+│   │   │   ├── 1-load-testdata.sh
+│   │   │   └── 1-load-testdata.sql
+│   │   ├── k8s
+│   │   │   ├── base
+│   │   │   │   ├── config.yaml
+│   │   │   │   └── kustomization.yaml
+│   │   │   ├── components
+│   │   │   │   └── init-db-job
+│   │   │   │       ├── init-db-job.yaml
+│   │   │   │       └── kustomization.yaml
+│   │   │   └── overlays
+│   │   │       ├── development
+│   │   │       │   ├── accounts-db.yaml
+│   │   │       │   └── kustomization.yaml
+│   │   │       ├── init-db-production
+│   │   │       │   └── kustomization.yaml
+│   │   │       ├── init-db-production-fwi
+│   │   │       │   └── kustomization.yaml
+│   │   │       ├── init-db-staging
+│   │   │       │   └── kustomization.yaml
+│   │   │       ├── production
+│   │   │       │   └── kustomization.yaml
+│   │   │       ├── production-fwi
+│   │   │       │   └── kustomization.yaml
+│   │   │       └── staging
+│   │   │           └── kustomization.yaml
+│   │   ├── README.md
+│   │   └── skaffold.yaml
+│   ├── cloudbuild.yaml
+│   ├── components
+│   │   └── accounts
+│   │       └── kustomization.yaml
+│   ├── contacts
+│   │   ├── __init__.py
+│   │   ├── contacts.py
+│   │   ├── db.py
+│   │   ├── Dockerfile
+│   │   ├── k8s
+│   │   │   ├── base
+│   │   │   │   ├── contacts.yaml
+│   │   │   │   └── kustomization.yaml
+│   │   │   └── overlays
+│   │   │       ├── development
+│   │   │       │   └── kustomization.yaml
+│   │   │       ├── production
+│   │   │       │   └── kustomization.yaml
+│   │   │       ├── production-fwi
+│   │   │       │   └── kustomization.yaml
+│   │   │       └── staging
+│   │   │           └── kustomization.yaml
+│   │   ├── logging.conf
+│   │   ├── pyproject.toml
+│   │   ├── README.md
+│   │   ├── skaffold.yaml
+│   │   ├── tests
+│   │   │   ├── __init__.py
+│   │   │   ├── constants.py
+│   │   │   ├── test_contacts.py
+│   │   │   └── test_db.py
+│   │   └── uv.lock
+│   ├── skaffold.yaml
+│   └── userservice
+│       ├── __init__.py
+│       ├── db.py
+│       ├── Dockerfile
+│       ├── k8s
+│       │   ├── base
+│       │   │   ├── add-private-key-volume.yaml
+│       │   │   ├── kustomization.yaml
+│       │   │   └── userservice.yaml
+│       │   └── overlays
+│       │       ├── development
+│       │       │   └── kustomization.yaml
+│       │       ├── production
+│       │       │   └── kustomization.yaml
+│       │       ├── production-fwi
+│       │       │   └── kustomization.yaml
+│       │       └── staging
+│       │           └── kustomization.yaml
+│       ├── logging.conf
+│       ├── pyproject.toml
+│       ├── README.md
+│       ├── skaffold.yaml
+│       ├── tests
+│       │   ├── __init__.py
+│       │   ├── constants.py
+│       │   ├── test_db.py
+│       │   └── test_userservice.py
+│       ├── userservice.py
+│       └── uv.lock
+├── components
+│   ├── add-public-key-volume
+│   │   ├── add-public-key-volume.yaml
+│   │   └── kustomization.yaml
+│   ├── add-tmp-dir
+│   │   ├── add-tmp-dir.yaml
+│   │   └── kustomization.yaml
+│   ├── backend
+│   │   └── kustomization.yaml
+│   ├── backend-fwi
+│   │   ├── add-fwi.yaml
+│   │   └── kustomization.yaml
+│   ├── backend-service
+│   │   └── kustomization.yaml
+│   ├── bank-of-anthos
+│   │   └── kustomization.yaml
+│   ├── cloud-sql
+│   │   ├── accounts-db.yaml
+│   │   ├── cloud-sql-proxy
+│   │   │   ├── add-container.yaml
+│   │   │   └── replace-args-job.yaml
+│   │   ├── kustomization.yaml
+│   │   └── ledger-db.yaml
+│   ├── cloud-sql-fwi
+│   │   ├── add-fwi.yaml
+│   │   └── kustomization.yaml
+│   ├── development
+│   │   └── kustomization.yaml
+│   ├── frontend
+│   │   └── kustomization.yaml
+│   ├── frontend-fwi
+│   │   ├── add-fwi.yaml
+│   │   └── kustomization.yaml
+│   ├── istio-proxy-hold-application-patch
+│   │   └── kustomization.yaml
+│   ├── production
+│   │   └── kustomization.yaml
+│   ├── service-cluster-ip
+│   │   ├── kustomization.yaml
+│   │   └── set-type-cluster-ip.yaml
+│   └── staging
+│       └── kustomization.yaml
+├── frontend
+│   ├── __init__.py
+│   ├── api_call.py
+│   ├── cloudbuild.yaml
+│   ├── Dockerfile
+│   ├── frontend.py
+│   ├── k8s
+│   │   ├── base
+│   │   │   ├── frontend.yaml
+│   │   │   └── kustomization.yaml
+│   │   └── overlays
+│   │       ├── development
+│   │       │   └── kustomization.yaml
+│   │       ├── production
+│   │       │   ├── backend-config.yaml
+│   │       │   ├── frontend-config.yaml
+│   │       │   ├── frontend-ingress.yaml
+│   │       │   ├── frontend-service.yaml
+│   │       │   ├── kustomization.yaml
+│   │       │   └── managed-certificate.yaml
+│   │       ├── production-fwi
+│   │       │   └── kustomization.yaml
+│   │       ├── production-fwi-ingress
+│   │       │   ├── frontend-ingress.yaml
+│   │       │   └── kustomization.yaml
+│   │       └── staging
+│   │           └── kustomization.yaml
+│   ├── logging.conf
+│   ├── pyproject.toml
+│   ├── README.md
+│   ├── skaffold.yaml
+│   ├── static
+│   │   ├── img
+│   │   │   ├── cymbal.svg
+│   │   │   └── favicon.png
+│   │   ├── scripts
+│   │   │   ├── index.js
+│   │   │   ├── login.js
+│   │   │   └── signup.js
+│   │   └── styles
+│   │       ├── cymbal.css
+│   │       ├── platform
+│   │       │   ├── alibaba.css
+│   │       │   ├── aws.css
+│   │       │   ├── azure.css
+│   │       │   ├── gcp.css
+│   │       │   ├── local.css
+│   │       │   └── onprem.css
+│   │       └── platform.css
+│   ├── templates
+│   │   ├── consent.html
+│   │   ├── index.html
+│   │   ├── login.html
+│   │   ├── shared
+│   │   │   ├── footer.html
+│   │   │   ├── html_head.html
+│   │   │   ├── navigation.html
+│   │   │   ├── platform_banner.html
+│   │   │   └── scripts.html
+│   │   └── signup.html
+│   ├── traced_thread_pool_executor.py
+│   └── uv.lock
+├── ledger
+│   ├── balancereader
+│   │   ├── checkstyle.xml
+│   │   ├── k8s
+│   │   │   ├── base
+│   │   │   │   ├── balancereader.yaml
+│   │   │   │   └── kustomization.yaml
+│   │   │   └── overlays
+│   │   │       ├── development
+│   │   │       │   └── kustomization.yaml
+│   │   │       ├── production
+│   │   │       │   └── kustomization.yaml
+│   │   │       ├── production-fwi
+│   │   │       │   └── kustomization.yaml
+│   │   │       └── staging
+│   │   │           └── kustomization.yaml
+│   │   ├── pom.xml
+│   │   ├── README.md
+│   │   ├── skaffold.yaml
+│   │   └── src
+│   │       ├── main
+│   │       │   ├── java
+│   │       │   │   └── anthos
+│   │       │   │       └── samples
+│   │       │   │           └── bankofanthos
+│   │       │   │               └── balancereader
+│   │       │   │                   ├── BalanceCache.java
+│   │       │   │                   ├── BalanceReaderApplication.java
+│   │       │   │                   ├── BalanceReaderController.java
+│   │       │   │                   ├── JWTVerifierGenerator.java
+│   │       │   │                   ├── LedgerReader.java
+│   │       │   │                   ├── Transaction.java
+│   │       │   │                   └── TransactionRepository.java
+│   │       │   └── resources
+│   │       │       ├── application.properties
+│   │       │       ├── banner.txt
+│   │       │       └── log4j2.xml
+│   │       └── test
+│   │           ├── java
+│   │           │   └── anthos
+│   │           │       └── samples
+│   │           │           └── bankofanthos
+│   │           │               └── balancereader
+│   │           │                   └── BalanceReaderControllerTest.java
+│   │           └── resources
+│   │               └── mockito-extensions
+│   │                   └── org.mockito.plugins.MockMaker
+│   ├── cloudbuild.yaml
+│   ├── components
+│   │   ├── ledger
+│   │   │   └── kustomization.yaml
+│   │   └── ledger-backend-service
+│   │       └── kustomization.yaml
+│   ├── ledger-db
+│   │   ├── Dockerfile
+│   │   ├── initdb
+│   │   │   ├── 0_init_tables.sql
+│   │   │   └── 1_create_transactions.sh
+│   │   ├── k8s
+│   │   │   ├── base
+│   │   │   │   ├── config.yaml
+│   │   │   │   └── kustomization.yaml
+│   │   │   ├── components
+│   │   │   │   └── init-db-job
+│   │   │   │       ├── init-db-job.yaml
+│   │   │   │       └── kustomization.yaml
+│   │   │   └── overlays
+│   │   │       ├── development
+│   │   │       │   ├── kustomization.yaml
+│   │   │       │   └── ledger-db.yaml
+│   │   │       ├── init-db-production
+│   │   │       │   └── kustomization.yaml
+│   │   │       ├── init-db-production-fwi
+│   │   │       │   └── kustomization.yaml
+│   │   │       ├── init-db-staging
+│   │   │       │   └── kustomization.yaml
+│   │   │       ├── production
+│   │   │       │   └── kustomization.yaml
+│   │   │       ├── production-fwi
+│   │   │       │   └── kustomization.yaml
+│   │   │       └── staging
+│   │   │           └── kustomization.yaml
+│   │   ├── README.md
+│   │   └── skaffold.yaml
+│   ├── ledgerwriter
+│   │   ├── checkstyle.xml
+│   │   ├── k8s
+│   │   │   ├── base
+│   │   │   │   ├── kustomization.yaml
+│   │   │   │   └── ledgerwriter.yaml
+│   │   │   └── overlays
+│   │   │       ├── development
+│   │   │       │   └── kustomization.yaml
+│   │   │       ├── production
+│   │   │       │   └── kustomization.yaml
+│   │   │       ├── production-fwi
+│   │   │       │   └── kustomization.yaml
+│   │   │       └── staging
+│   │   │           └── kustomization.yaml
+│   │   ├── pom.xml
+│   │   ├── README.md
+│   │   ├── skaffold.yaml
+│   │   └── src
+│   │       ├── main
+│   │       │   ├── java
+│   │       │   │   └── anthos
+│   │       │   │       └── samples
+│   │       │   │           └── bankofanthos
+│   │       │   │               └── ledgerwriter
+│   │       │   │                   ├── ExceptionMessages.java
+│   │       │   │                   ├── JWTVerifierGenerator.java
+│   │       │   │                   ├── LedgerWriterApplication.java
+│   │       │   │                   ├── LedgerWriterController.java
+│   │       │   │                   ├── Transaction.java
+│   │       │   │                   ├── TransactionRepository.java
+│   │       │   │                   └── TransactionValidator.java
+│   │       │   └── resources
+│   │       │       ├── application.properties
+│   │       │       ├── banner.txt
+│   │       │       └── log4j2.xml
+│   │       └── test
+│   │           ├── java
+│   │           │   └── anthos
+│   │           │       └── samples
+│   │           │           └── bankofanthos
+│   │           │               └── ledgerwriter
+│   │           │                   ├── LedgerWriterControllerTest.java
+│   │           │                   └── TransactionValidatorTest.java
+│   │           └── resources
+│   │               └── mockito-extensions
+│   │                   └── org.mockito.plugins.MockMaker
+│   ├── skaffold.yaml
+│   └── transactionhistory
+│       ├── checkstyle.xml
+│       ├── k8s
+│       │   ├── base
+│       │   │   ├── kustomization.yaml
+│       │   │   └── transactionhistory.yaml
+│       │   └── overlays
+│       │       ├── development
+│       │       │   └── kustomization.yaml
+│       │       ├── production
+│       │       │   └── kustomization.yaml
+│       │       ├── production-fwi
+│       │       │   └── kustomization.yaml
+│       │       └── staging
+│       │           └── kustomization.yaml
+│       ├── pom.xml
+│       ├── README.md
+│       ├── skaffold.yaml
+│       └── src
+│           ├── main
+│           │   ├── java
+│           │   │   └── anthos
+│           │   │       └── samples
+│           │   │           └── bankofanthos
+│           │   │               └── transactionhistory
+│           │   │                   ├── JWTVerifierGenerator.java
+│           │   │                   ├── LedgerReader.java
+│           │   │                   ├── Transaction.java
+│           │   │                   ├── TransactionCache.java
+│           │   │                   ├── TransactionHistoryApplication.java
+│           │   │                   ├── TransactionHistoryController.java
+│           │   │                   └── TransactionRepository.java
+│           │   └── resources
+│           │       ├── application.properties
+│           │       ├── banner.txt
+│           │       └── log4j2.xml
+│           └── test
+│               ├── java
+│               │   └── anthos
+│               │       └── samples
+│               │           └── bankofanthos
+│               │               └── transactionhistory
+│               │                   └── TransactionHistoryControllerTest.java
+│               └── resources
+│                   └── mockito-extensions
+│                       └── org.mockito.plugins.MockMaker
+├── ledgermonolith
+│   ├── checkstyle.xml
+│   ├── config.yaml
+│   ├── init
+│   │   ├── install-script.sh
+│   │   └── ledgermonolith.env
+│   ├── pom.xml
+│   ├── README.md
+│   ├── scripts
+│   │   ├── build-artifacts.sh
+│   │   ├── delete-artifacts.sh
+│   │   ├── deploy-monolith.sh
+│   │   └── teardown-monolith.sh
+│   └── src
+│       └── main
+│           ├── java
+│           │   └── anthos
+│           │       └── samples
+│           │           └── bankofanthos
+│           │               └── ledgermonolith
+│           │                   ├── AccountInfo.java
+│           │                   ├── ExceptionMessages.java
+│           │                   ├── JWTVerifierGenerator.java
+│           │                   ├── LedgerMonolithApplication.java
+│           │                   ├── LedgerMonolithController.java
+│           │                   ├── LedgerReader.java
+│           │                   ├── LedgerReaderCache.java
+│           │                   ├── Transaction.java
+│           │                   ├── TransactionRepository.java
+│           │                   └── TransactionValidator.java
+│           └── resources
+│               ├── application.properties
+│               └── log4j2.xml
+└── loadgenerator
+    ├── Dockerfile
+    ├── k8s
+    │   ├── base
+    │   │   ├── kustomization.yaml
+    │   │   └── loadgenerator.yaml
+    │   └── overlays
+    │       └── development
+    │           └── kustomization.yaml
+    ├── locustfile.py
+    ├── pyproject.toml
+    ├── README.md
+    ├── skaffold.yaml
+    └── uv.lock
+
+175 directories, 250 files
+
+
+############## accounts/accounts-db/Dockerfile ##############
+
+# Copyright 2020 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+FROM postgres:16.15-alpine@sha256:cf78e76683b9ca8c5733cbbdce6c9262b45b6767934dd0a95e671f9a0fc20685
+
+# Files for initializing the database.
+COPY initdb/0-accounts-schema.sql initdb/1-load-testdata.sh /docker-entrypoint-initdb.d/
+RUN chmod 755 /docker-entrypoint-initdb.d/0-accounts-schema.sql /docker-entrypoint-initdb.d/1-load-testdata.sh 
+
+
+############## accounts/accounts-db/k8s/base/config.yaml ##############
+
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: accounts-db-config
+  labels:
+    app: accounts-db
+data:
+  POSTGRES_DB: accounts-db
+  POSTGRES_USER: accounts-admin
+  POSTGRES_PASSWORD: accounts-pwd
+  ACCOUNTS_DB_URI: postgresql://accounts-admin:accounts-pwd@accounts-db:5432/accounts-db
+
+############## accounts/accounts-db/k8s/base/kustomization.yaml ##############
+
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+commonLabels:
+  tier: db
+resources:
+  - config.yaml
+components:
+  - ../../../components/accounts
+
+############## accounts/accounts-db/k8s/components/init-db-job/init-db-job.yaml ##############
+
+# Copyright 2020 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# kubectl create configmap accounts-schema-config --from-file=src/accounts-db/initdb/0-accounts-schema.sql --dry-run -o yaml (copy and add below)
+# kubectl create configmap accounts-schema-config --from-file=src/accounts-db/initdb/1-load-testdata.sh --dry-run -o yaml (copy and add below)
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: accounts-schema-config
+data:
+  initialize-database.sh: |
+    #!/bin/bash
+
+    COUNTER=0
+    ERROR=0
+    SLEEP_TIME=60
+    DB_READY=0
+    INIT_SQL_SCRIPT="/scripts/0-accounts-schema.sql"
+    TEST_SQL_SCRIPT="/scripts/1-load-testdata.sh"
+
+    HOST=${1:-'127.0.0.1'}
+    PORT=${2:-'5432'}
+    DB_NAME=${3:-'default'}
+
+    # Initial wait for cloud-sql-proxy
+    sleep 20
+
+    while [ $COUNTER -lt 10 ]; do
+        let COUNTER=$COUNTER+1
+
+        echo "Attempt # ${COUNTER}: Checking connectivity to ${HOST}:${PORT}/${DB_NAME}..."
+        pg_isready --host=${HOST} --port=${PORT} --dbname=${DB_NAME}
+
+        if [ $? -gt 0 ]; then
+            echo "Attempt # ${COUNTER}: Database is not ready, trying again in ${SLEEP_TIME} seconds"
+            sleep $SLEEP_TIME
+        else
+            echo "Database is ready to connect"
+            let DB_READY=1
+            break
+        fi
+    done
+
+    if [ "${DB_READY}" -eq 1 ]; then
+        echo "Running initialization script"
+        psql --host=${HOST} --port=${PORT} --dbname=${DB_NAME} -f ${INIT_SQL_SCRIPT}
+        if [ $? -gt 0 ]; then
+            echo "Problems running the initialization script"
+            ERROR=$((ERROR+1))
+        else
+            echo "Run Test Data"
+            . ${TEST_SQL_SCRIPT}
+            if [ $? -gt 0 ]; then
+              echo "Problems running the test data script"
+              ERROR=$((ERROR+1))
+            fi
+        fi
+    else
+        echo "Failed to connect to the database"
+        ERROR=$((ERROR+1))
+    fi
+
+    wget --post-data '' http://127.0.0.1:9091/quitquitquit 2>&1
+
+    return ${ERROR}
+  0-accounts-schema.sql: |
+    /*
+     * Copyright 2020, Google LLC.
+     *
+     * Licensed under the Apache License, Version 2.0 (the "License");
+     * you may not use this file except in compliance with the License.
+     * You may obtain a copy of the License at
+     *
+     *     http://www.apache.org/licenses/LICENSE-2.0
+     *
+     * Unless required by applicable law or agreed to in writing, software
+     * distributed under the License is distributed on an "AS IS" BASIS,
+     * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     * See the License for the specific language governing permissions and
+     * limitations under the License.
+     */
+
+    CREATE TABLE IF NOT EXISTS users (
+      accountid CHAR(10) PRIMARY KEY,
+      username VARCHAR(64) UNIQUE NOT NULL,
+      passhash BYTEA NOT NULL,
+      firstname VARCHAR(64) NOT NULL,
+      lastname VARCHAR(64) NOT NULL,
+      birthday DATE NOT NULL,
+      timezone VARCHAR(8) NOT NULL,
+      address VARCHAR(64) NOT NULL,
+      state CHAR(2) NOT NULL,
+      zip VARCHAR(5) NOT NULL,
+      ssn CHAR(11) NOT NULL
+    );
+
+    CREATE INDEX IF NOT EXISTS idx_users_accountid ON users (accountid);
+    CREATE INDEX IF NOT EXISTS idx_users_username ON users (username);
+
+
+
+    CREATE TABLE IF NOT EXISTS contacts (
+      username VARCHAR(64) NOT NULL,
+      label VARCHAR(128) NOT NULL,
+      account_num CHAR(10) NOT NULL,
+      routing_num CHAR(9) NOT NULL,
+      is_external BOOLEAN NOT NULL,
+      FOREIGN KEY (username) REFERENCES users(username)
+    );
+
+    CREATE INDEX IF NOT EXISTS idx_contacts_username ON contacts (username);
+  1-load-testdata.sh: |
+    #!/bin/bash
+    # Copyright 2020 Google LLC
+    #
+    # Licensed under the Apache License, Version 2.0 (the "License");
+    # you may not use this file except in compliance with the License.
+    # You may obtain a copy of the License at
+    #
+    #      http://www.apache.org/licenses/LICENSE-2.0
+    #
+    # Unless required by applicable law or agreed to in writing, software
+    # distributed under the License is distributed on an "AS IS" BASIS,
+    # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    # See the License for the specific language governing permissions and
+    # limitations under the License.
+
+    # Immediately exit if any error occurs during script execution.
+    set -o errexit
+
+    # Skip adding data if not enabled
+    if [ "$USE_DEMO_DATA" != "True"  ]; then
+      echo "no demo users added"
+      exit 0
+    fi
+
+
+    # Expected environment variables
+    readonly ENV_VARS=(
+      "POSTGRES_DB"
+      "POSTGRES_USER"
+      "LOCAL_ROUTING_NUM"
+    )
+
+
+    add_user() {
+      # Usage:  add_user "ACCOUNTID" "USERNAME" "FIRST_NAME"
+      echo "adding user: $2"
+      psql -X -v ON_ERROR_STOP=1 -v account="$1" -v username="$2" -v firstname="$3" -v passhash="$DEFAULT_PASSHASH" --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-EOSQL
+        INSERT INTO users VALUES (:'account', :'username', :'passhash', :'firstname', 'User', '2000-01-01', '-5', 'Bowling Green, New York City', 'NY', '10004', '111-22-3333') ON CONFLICT DO NOTHING;
+    EOSQL
+    }
+
+
+    add_external_account() {
+      # Usage:  add_external_account "OWNER_USERNAME" "LABEL" "ACCOUNT" "ROUTING"
+      echo "user $1 adding contact: $2"
+      psql -X -v ON_ERROR_STOP=1 -v username="$1" -v label="$2" -v account="$3" -v routing="$4" --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-EOSQL
+        INSERT INTO contacts VALUES (:'username', :'label', :'account', :'routing', 'true') ON CONFLICT DO NOTHING;
+    EOSQL
+    }
+
+
+    add_contact() {
+      # Usage:  add_contact "OWNER_USERNAME" "CONTACT_LABEL" "CONTACT_ACCOUNT"
+      echo "user $1 adding external account: $2"
+      psql -X -v ON_ERROR_STOP=1 -v username="$1" -v label="$2" -v account="$3" -v routing="$LOCAL_ROUTING_NUM" --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-EOSQL
+        INSERT INTO contacts VALUES (:'username', :'label', :'account', :'routing', 'false') ON CONFLICT DO NOTHING;
+    EOSQL
+    }
+
+
+    # Load test data into the database
+    create_accounts() {
+      # Add demo users.
+      add_user "1011226111" "testuser" "Test"
+      add_user "1033623433" "alice" "Alice"
+      add_user "1055757655" "bob" "Bob"
+      add_user "1077441377" "eve" "Eve"
+
+      # Make everyone contacts of each other
+      add_contact "testuser" "Alice" "1033623433"
+      add_contact "testuser" "Bob" "1055757655"
+      add_contact "testuser" "Eve" "1077441377"
+      add_contact "alice" "Testuser" "1011226111"
+      add_contact "alice" "Bob" "1055757655"
+      add_contact "alice" "Eve" "1077441377"
+      add_contact "bob" "Testuser" "1011226111"
+      add_contact "bob" "Alice" "1033623433"
+      add_contact "bob" "Eve" "1077441377"
+      add_contact "eve" "Testuser" "1011226111"
+      add_contact "eve" "Alice" "1033623433"
+      add_contact "eve" "Bob" "1055757655"
+
+      # Add external accounts
+      add_external_account "testuser" "External Bank" "9099791699" "808889588"
+      add_external_account "alice" "External Bank" "9099791699" "808889588"
+      add_external_account "bob" "External Bank" "9099791699" "808889588"
+      add_external_account "eve" "External Bank" "9099791699" "808889588"
+    }
+
+
+    main() {
+      # Check environment variables are set
+      for env_var in ${ENV_VARS[@]}; do
+        if [[ -z "${!env_var}" ]]; then
+          echo "Error: environment variable '$env_var' not set. Aborting."
+          exit 1
+        fi
+      done
+
+      # A password hash + salt for the demo password 'bankofanthos'
+      # Via Python3:  bcrypt.hashpw('bankofanthos'.encode('utf-8'), bcrypt.gensalt()).hex()
+      DEFAULT_PASSHASH='\x2432622431322477595638423166664b50667a41524a6b69614d6c5075784847466961636b6d333349595952786d59645a6834435946696f49434943'
+
+      create_accounts
+    }
+
+
+    main
+
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: populate-accounts-db
+spec:
+  activeDeadlineSeconds: 300
+  template:
+    metadata:
+      annotations:
+        sidecar.istio.io/inject: "false"
+    spec:
+      containers:
+      - command: ['bash', '-c','. /scripts/initialize-database.sh 127.0.0.1 5432 accounts-db']
+        env:
+        - name: PGHOSTADDR
+          value: "127.0.0.1"
+        - name: PGPASSWORD
+          valueFrom:
+            configMapKeyRef:
+              key: POSTGRES_PASSWORD
+              name: accounts-db-config
+        - name: PGUSER
+          valueFrom:
+            configMapKeyRef:
+              key: POSTGRES_USER
+              name: accounts-db-config
+        envFrom:
+        - configMapRef:
+            name: accounts-db-config
+        - configMapRef:
+            name: demo-data-config
+        - configMapRef:
+            name: environment-config
+        image: postgres:16.15-alpine@sha256:cf78e76683b9ca8c5733cbbdce6c9262b45b6767934dd0a95e671f9a0fc20685
+        name: populate-accounts-db
+        resources:
+          limits:
+            cpu: 100m
+            ephemeral-storage: 1Gi
+            memory: 256Mi
+          requests:
+            cpu: 100m
+            ephemeral-storage: 1Gi
+            memory: 256Mi
+        volumeMounts:
+        - name: scripts
+          mountPath: "/scripts"
+          readOnly: true
+      restartPolicy: Never
+      serviceAccountName: bank-of-anthos
+      volumes:
+      - name: scripts
+        configMap:
+          name: accounts-schema-config
+
+
+############## accounts/accounts-db/k8s/components/init-db-job/kustomization.yaml ##############
+
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: kustomize.config.k8s.io/v1alpha1
+kind: Component
+resources:
+  - init-db-job.yaml
+
+
+############## accounts/accounts-db/k8s/overlays/development/accounts-db.yaml ##############
+
+# Copyright 2019 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+kind: StatefulSet
+apiVersion: apps/v1
+metadata:
+  name: accounts-db
+spec:
+  serviceName: "accounts-db"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: accounts-db
+  template:
+    metadata:
+      labels:
+        app: accounts-db
+    spec:
+      serviceAccountName: default
+      containers:
+      - name: accounts-db
+        image: accounts-db
+        envFrom:
+          - configMapRef:
+              name: environment-config
+          - configMapRef:
+              name: accounts-db-config
+          - configMapRef:
+              name: demo-data-config
+        ports:
+          - containerPort: 5432
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            cpu: 250m
+            memory: 512Mi
+        volumeMounts:
+        - name: postgresdb
+          mountPath: /var/lib/postgresql/data
+          subPath: postgres
+      volumes:
+      - name: postgresdb
+        emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: accounts-db
+spec:
+  type: ClusterIP
+  ports:
+    - port: 5432
+      name: tcp
+      targetPort: 5432
+      protocol: TCP
+  selector:
+    app: accounts-db
+
+
+############## accounts/accounts-db/k8s/overlays/development/kustomization.yaml ##############
+
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+commonLabels:
+  tier: db
+resources:
+  - ../../base
+  - accounts-db.yaml
+components:
+  - ../../../../components/accounts
+  - ../../../../../components/development
+
+
+############## accounts/accounts-db/k8s/overlays/init-db-production-fwi/kustomization.yaml ##############
+
+# Copyright 2024 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../base
+components:
+  - ../../components/init-db-job
+  - ../../../../../components/cloud-sql-fwi
+  - ../../../../../components/backend
+  - ../../../../../components/production
+
+
+############## accounts/accounts-db/k8s/overlays/init-db-production/kustomization.yaml ##############
+
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../base
+components:
+  - ../../components/init-db-job
+  - ../../../../../components/cloud-sql
+  - ../../../../../components/production
+
+############## accounts/accounts-db/k8s/overlays/init-db-staging/kustomization.yaml ##############
+
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../base
+components:
+  - ../../components/init-db-job
+  - ../../../../../components/cloud-sql
+  - ../../../../../components/staging
+
+############## accounts/accounts-db/k8s/overlays/production-fwi/kustomization.yaml ##############
+
+# Copyright 2024 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../base
+components:
+  - ../../../../../components/production
+
+
+############## accounts/accounts-db/k8s/overlays/production/kustomization.yaml ##############
+
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../base
+components:
+  - ../../../../../components/production
+  - ../../../../../components/cloud-sql
+
+############## accounts/accounts-db/k8s/overlays/staging/kustomization.yaml ##############
+
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../base
+components:
+  - ../../../../../components/staging
+  - ../../../../../components/cloud-sql
+
+############## accounts/accounts-db/skaffold.yaml ##############
+
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: skaffold/v4beta1
+kind: Config
+metadata:
+  name: accounts-db
+deploy:
+  kubectl: {}
+profiles:
+- name: development
+  activation:
+  - command: dev
+  build:
+    artifacts:
+    - image: accounts-db
+      context: .
+    tagPolicy:
+      sha256: {}
+  manifests:
+    kustomize:
+      paths:
+      - k8s/overlays/development
+      - ../../../iac/acm-multienv-cicd-anthos-autopilot/overlays/development
+- name: staging
+  manifests:
+    kustomize:
+      paths:
+      - k8s/overlays/staging
+- name: production
+  manifests:
+    kustomize:
+      paths:
+      - k8s/overlays/production
+- name: production-fwi
+  manifests:
+    kustomize:
+      paths:
+      - k8s/overlays/production-fwi
+- name: init-db-staging
+  manifests:
+    kustomize:
+      paths:
+      - k8s/overlays/init-db-staging
+- name: init-db-production
+  manifests:
+    kustomize:
+      paths:
+      - k8s/overlays/init-db-production
+- name: init-db-production-fwi
+  manifests:
+    kustomize:
+      paths:
+      - k8s/overlays/init-db-production-fwi
+
+
+############## accounts/cloudbuild.yaml ##############
+
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+steps:
+  - name: gcr.io/cloud-builders/gcloud
+    id: download-skaffold-cache
+    args: ['storage', 'cp', $_CACHE_URI, '/workspace/cache'] # always write skaffold cache to filename cache in workspace
+  - name: gcr.io/k8s-skaffold/skaffold:v2.22.0
+    id: build-and-push-images
+    args:
+      - "skaffold"
+      - "build"
+      - "--file-output=/workspace/artifacts.json"
+      - "--default-repo=$_CONTAINER_REGISTRY"
+      - "--cache-file=/workspace/$_CACHE" # set _CACHE to anything other than "cache" e.g. "no-cache" to reset skaffold cache
+      - "--module=$_SERVICE"
+  - name: gcr.io/cloud-builders/gcloud
+    id: upload-skaffold-cache
+    args: ['storage', 'cp', '/workspace/$_CACHE',  $_CACHE_URI]
+  - name: gcr.io/k8s-skaffold/skaffold:v2.22.0 # python set up should be baked into a custom builder image to speed up build times
+    id: run-tests
+    script: |
+      #!/bin/bash
+      apt-get update && apt-get -y install curl
+      curl -LsSf https://astral.sh/uv/install.sh | sh
+      mv $HOME/.local/bin/uv* /usr/local/bin/
+      skaffold test --build-artifacts=/workspace/artifacts.json --module=$SERVICE --assume-yes
+    env:
+      - 'TEAM=$_TEAM'
+      - 'SERVICE=$_SERVICE'
+  - name: gcr.io/cloud-builders/gcloud
+    id: trigger-release
+    args: 
+      - "deploy"
+      - "releases"
+      - "create"
+      - "$_SERVICE-$SHORT_SHA"
+      - "--delivery-pipeline=$_SERVICE"
+      - "--build-artifacts=/workspace/artifacts.json"
+      - "--skaffold-file=src/$_TEAM/$_SERVICE/skaffold.yaml"
+      - "--region=$LOCATION"
+      - "--gcs-source-staging-dir=$_SOURCE_STAGING_BUCKET/$SHORT_SHA"
+options:
+  logging: CLOUD_LOGGING_ONLY
+
+############## accounts/components/accounts/kustomization.yaml ##############
+
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: kustomize.config.k8s.io/v1alpha1
+kind: Component
+commonLabels:
+  team: accounts
+components:
+  - ../../../components/bank-of-anthos
+
+############## accounts/contacts/Dockerfile ##############
+
+# Copyright 2021 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Use the official Python docker container, slim version, running Debian
+FROM python:3.14.6-slim@sha256:44dd04494ee8f3b538294360e7c4b3acb87c8268e4d0a4828a6500b1eff50061 AS base
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /bin/uv
+
+FROM base AS builder
+
+# Set working directory
+WORKDIR /app
+
+# Install dependencies.
+COPY pyproject.toml uv.lock ./
+RUN uv sync --frozen --no-dev --no-install-project
+
+FROM base
+
+# Set our working directory
+WORKDIR /app
+
+COPY --from=builder /app/.venv /app/.venv
+ENV PATH="/app/.venv/bin:$PATH"
+
+# show python logs as they occur
+ENV PYTHONUNBUFFERED=0
+
+# explicitly set a fallback log level in case no log level is defined by Kubernetes
+ENV LOG_LEVEL=info
+
+# Add application code.
+COPY . .
+
+# Ensure files are readable for non-root users
+RUN chmod a+r *
+
+CMD gunicorn -b :$PORT --threads 4 --log-config logging.conf --log-level=$LOG_LEVEL "contacts:create_app()"
+
+
+############## accounts/contacts/k8s/base/contacts.yaml ##############
+
+# Copyright 2019 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: contacts
+spec:
+  selector:
+    matchLabels:
+      app: contacts
+  template:
+    metadata:
+      labels:
+        app: contacts
+    spec:
+      serviceAccountName: default
+      terminationGracePeriodSeconds: 5
+      securityContext:
+        fsGroup: 1000
+        runAsGroup: 1000
+        runAsNonRoot: true
+        runAsUser: 1000
+      containers:
+      - name: contacts
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - all
+          privileged: false
+          readOnlyRootFilesystem: true
+        image: contacts
+        env:
+        - name: VERSION
+          value: "dev"
+        - name: PORT
+          value: "8080"
+        - name: ENABLE_TRACING
+          value: "true"
+        # Valid levels are debug, info, warning, error, critical.
+        # If no valid level is set, will default to info.
+        - name: LOG_LEVEL
+          value: "info"
+        envFrom:
+        - configMapRef:
+            name: environment-config
+        - configMapRef:
+            name: accounts-db-config
+        resources:
+          requests:
+            cpu: 100m
+            memory: 64Mi
+            ephemeral-storage: 0.25Gi
+          limits:
+            cpu: 250m
+            memory: 128Mi
+            ephemeral-storage: 0.25Gi
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 8080
+          initialDelaySeconds: 10
+          periodSeconds: 5
+          timeoutSeconds: 10
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: contacts
+spec:
+  type: ClusterIP
+  selector:
+    app: contacts
+  ports:
+  - name: http
+    port: 8080
+    targetPort: 8080
+
+############## accounts/contacts/k8s/base/kustomization.yaml ##############
+
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+commonLabels:
+  tier: backend
+resources:
+  - contacts.yaml
+components:
+  - ../../../components/accounts
+  - ../../../../components/backend-service
+  - ../../../../components/add-public-key-volume
+
+
+############## accounts/contacts/k8s/overlays/development/kustomization.yaml ##############
+
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../base
+components:
+  - ../../../../../components/development
+
+############## accounts/contacts/k8s/overlays/production-fwi/kustomization.yaml ##############
+
+# Copyright 2024 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../base
+components:
+  - ../../../../../components/production
+  - ../../../../../components/backend-fwi
+  - ../../../../../components/cloud-sql-fwi
+
+
+############## accounts/contacts/k8s/overlays/production/kustomization.yaml ##############
+
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../base
+components:
+  - ../../../../../components/production
+  - ../../../../../components/cloud-sql
+
+############## accounts/contacts/k8s/overlays/staging/kustomization.yaml ##############
+
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../base
+components:
+  - ../../../../../components/staging
+  - ../../../../../components/cloud-sql
+
+############## accounts/contacts/skaffold.yaml ##############
+
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: skaffold/v4beta1
+kind: Config
+metadata:
+  name: contacts
+requires:
+- configs:
+  - e2e-tests
+  path: ../../../skaffold-e2e.yaml
+- configs:
+  - accounts-db
+  path: ../accounts-db/skaffold.yaml
+build:
+  artifacts:
+  - image: contacts
+    context: .
+  tagPolicy:
+    sha256: {}
+deploy:
+  kubectl: {}
+test:
+  - image: contacts # code style
+    context: .
+    custom:
+      - command: |
+          uv run pylint --rcfile=../../../.pylintrc *.py
+        timeoutSeconds: 1200
+        dependencies: 
+          paths:
+            - "**/*.py"
+            - "../../../.pylintrc"
+            - "pyproject.toml"
+            - "uv.lock"
+  - image: contacts # unit tests
+    context: .
+    custom:
+      - command: |
+          uv run pytest -v -p no:warnings
+        timeoutSeconds: 1200
+        dependencies: 
+          paths:
+            - "**/*.py"
+            - "pyproject.toml"
+            - "uv.lock"
+  - image: contacts # code coverage
+    context: .
+    custom:
+      - command: |
+          uv run pytest --cov=./ tests/
+        timeoutSeconds: 1200
+        dependencies: 
+          paths:
+            - "**/*.py"
+            - "pyproject.toml"
+            - "uv.lock"
+profiles:
+- name: development
+  activation:
+  - command: dev       
+  manifests:
+    kustomize:
+      paths:
+      - k8s/overlays/development  
+      - ../../../iac/acm-multienv-cicd-anthos-autopilot/overlays/development
+- name: staging
+  manifests:
+    kustomize:
+      paths:
+      - k8s/overlays/staging
+- name: production
+  manifests:
+    kustomize:
+      paths:
+      - k8s/overlays/production
+- name: production-fwi
+  manifests:
+    kustomize:
+      paths:
+      - k8s/overlays/production-fwi
+
+
+############## accounts/skaffold.yaml ##############
+
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: skaffold/v4beta1
+kind: Config
+metadata:
+  name: accounts
+requires:
+- configs:
+  - e2e-tests
+  path: ../../skaffold-e2e.yaml
+- configs:
+  - contacts
+  path: contacts/skaffold.yaml
+- configs:
+  - userservice
+  path: userservice/skaffold.yaml
+deploy:
+  tolerateFailuresUntilDeadline: true
+
+############## accounts/userservice/Dockerfile ##############
+
+# Copyright 2021 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Use the official Python docker container, slim version, running Debian
+FROM python:3.14.6-slim@sha256:44dd04494ee8f3b538294360e7c4b3acb87c8268e4d0a4828a6500b1eff50061 AS base
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /bin/uv
+
+FROM base AS builder
+
+# Set working directory
+WORKDIR /app
+
+# Install dependencies.
+COPY pyproject.toml uv.lock ./
+RUN uv sync --frozen --no-dev --no-install-project
+
+FROM base
+
+# Set our working directory
+WORKDIR /app
+
+COPY --from=builder /app/.venv /app/.venv
+ENV PATH="/app/.venv/bin:$PATH"
+
+# show python logs as they occur
+ENV PYTHONUNBUFFERED=0
+
+# explicitly set a fallback log level in case no log level is defined by Kubernetes
+ENV LOG_LEVEL=info
+
+# Add application code.
+COPY . .
+
+# Ensure files are readable for non-root users
+RUN chmod a+r *
+
+# Start server using gunicorn
+CMD gunicorn -b :$PORT --threads 2 --log-config logging.conf --log-level=$LOG_LEVEL "userservice:create_app()"
+
+
+############## accounts/userservice/k8s/base/add-private-key-volume.yaml ##############
+
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+- op: add
+  path: /spec/template/spec/volumes/-
+  value:
+    name: keys
+    secret:
+      secretName: jwt-key
+      items:
+      - key: jwtRS256.key
+        path: privatekey
+      - key: jwtRS256.key.pub
+        path: publickey
+- op: add
+  path: /spec/template/spec/containers/0/volumeMounts/-
+  value:
+    name: keys
+    mountPath: "/tmp/.ssh"
+    readOnly: true
+
+############## accounts/userservice/k8s/base/kustomization.yaml ##############
+
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - userservice.yaml
+components:
+  - ../../../components/accounts
+  - ../../../../components/backend-service
+patches:
+  - target:
+      kind: Deployment
+    path: add-private-key-volume.yaml
+
+############## accounts/userservice/k8s/base/userservice.yaml ##############
+
+# Copyright 2021 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: userservice
+spec:
+  selector:
+    matchLabels:
+      app: userservice
+  template:
+    metadata:
+      labels:
+        app: userservice
+    spec:
+      serviceAccountName: default
+      terminationGracePeriodSeconds: 5
+      securityContext:
+        fsGroup: 1000
+        runAsGroup: 1000
+        runAsNonRoot: true
+        runAsUser: 1000
+      containers:
+      - name: userservice
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - all
+          privileged: false
+          readOnlyRootFilesystem: true
+        image: userservice
+        ports:
+        - name: http-server
+          containerPort: 8080
+        env:
+        - name: VERSION
+          value: "dev"
+        - name: PORT
+          value: "8080"
+        - name: ENABLE_TRACING
+          value: "true"
+        - name: TOKEN_EXPIRY_SECONDS
+          value: "3600"
+        - name: PRIV_KEY_PATH
+          value: "/tmp/.ssh/privatekey"
+        # Valid levels are debug, info, warning, error, critical. If no valid level is set, gunicorn will default to info.
+        - name: LOG_LEVEL
+          value: "info"
+        envFrom:
+        - configMapRef:
+            name: environment-config
+        - configMapRef:
+            name: accounts-db-config
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 8080
+          initialDelaySeconds: 10
+          periodSeconds: 5
+          timeoutSeconds: 10
+        resources:
+          requests:
+            cpu: 260m
+            memory: 128Mi
+            ephemeral-storage: 0.25Gi
+          limits:
+            cpu: 500m
+            memory: 256Mi
+            ephemeral-storage: 0.25Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: userservice
+spec:
+  type: ClusterIP
+  selector:
+    app: userservice
+  ports:
+  - name: http
+    port: 8080
+    targetPort: 8080
+
+############## accounts/userservice/k8s/overlays/development/kustomization.yaml ##############
+
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../base
+components:
+  - ../../../../../components/development
+
+############## accounts/userservice/k8s/overlays/production-fwi/kustomization.yaml ##############
+
+# Copyright 2024 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../base
+components:
+  - ../../../../../components/production
+  - ../../../../../components/backend-fwi
+  - ../../../../../components/cloud-sql-fwi
+
+
+############## accounts/userservice/k8s/overlays/production/kustomization.yaml ##############
+
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../base
+components:
+  - ../../../../../components/production
+  - ../../../../../components/cloud-sql
+
+############## accounts/userservice/k8s/overlays/staging/kustomization.yaml ##############
+
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../base
+components:
+  - ../../../../../components/staging
+  - ../../../../../components/cloud-sql
+
+############## accounts/userservice/skaffold.yaml ##############
+
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: skaffold/v4beta1
+kind: Config
+metadata:
+  name: userservice
+requires:
+- configs:
+  - e2e-tests
+  path: ../../../skaffold-e2e.yaml
+- configs:
+  - accounts-db
+  path: ../accounts-db/skaffold.yaml
+build:
+  artifacts:
+  - image: userservice
+    context: .
+  tagPolicy:
+    sha256: {}
+test:
+  - image: userservice # code style
+    context: .
+    custom:
+      - command: |
+          uv run pylint --rcfile=../../../.pylintrc *.py
+        timeoutSeconds: 1200
+        dependencies: 
+          paths:
+            - "**/*.py"
+            - "../../../.pylintrc"
+            - "pyproject.toml"
+            - "uv.lock"
+  - image: userservice # unit tests
+    context: .
+    custom:
+      - command: |
+          uv run pytest -v -p no:warnings
+        timeoutSeconds: 1200
+        dependencies: 
+          paths:
+            - "**/*.py"
+            - "pyproject.toml"
+            - "uv.lock"
+  - image: userservice # code coverage
+    context: .
+    custom:
+      - command: |
+          uv run pytest --cov=./ tests/
+        timeoutSeconds: 1200
+        dependencies: 
+          paths:
+            - "**/*.py"
+            - "pyproject.toml"
+            - "uv.lock"
+deploy:
+  kubectl: {}
+profiles:
+- name: development
+  activation:
+  - command: dev
+  manifests:
+    kustomize:
+      paths:
+      - k8s/overlays/development
+      - ../../../iac/acm-multienv-cicd-anthos-autopilot/overlays/development
+- name: staging
+  manifests:
+    kustomize:
+      paths:
+      - k8s/overlays/staging
+- name: production
+  manifests:
+    kustomize:
+      paths:
+      - k8s/overlays/production
+- name: production-fwi
+  manifests:
+    kustomize:
+      paths:
+      - k8s/overlays/production-fwi
+
+
+############## components/add-public-key-volume/add-public-key-volume.yaml ##############
+
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+- op: add
+  path: /spec/template/spec/volumes/-
+  value:
+    name: publickey
+    secret:
+      secretName: jwt-key
+      items:
+      - key: jwtRS256.key.pub
+        path: publickey
+- op: add
+  path: /spec/template/spec/containers/0/volumeMounts/-
+  value:
+    name: publickey
+    mountPath: "/tmp/.ssh"
+    readOnly: true
+
+
+############## components/add-public-key-volume/kustomization.yaml ##############
+
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: kustomize.config.k8s.io/v1alpha1
+kind: Component
+patches:
+  - target:
+      kind: Deployment
+    path: add-public-key-volume.yaml
+
+
+############## components/add-tmp-dir/add-tmp-dir.yaml ##############
+
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+- op: add
+  path: /spec/template/spec/volumes
+  value:
+    - name: tmp
+      emptyDir: {}
+- op: add
+  path: /spec/template/spec/containers/0/volumeMounts
+  value:
+    - name: tmp
+      mountPath: /tmp
+      
+
+############## components/add-tmp-dir/kustomization.yaml ##############
+
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: kustomize.config.k8s.io/v1alpha1
+kind: Component
+patches:
+  - target:
+      kind: Deployment
+    path: add-tmp-dir.yaml
+
+
+############## components/backend-fwi/add-fwi.yaml ##############
+
+# Copyright 2024 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+- op: add
+  path: /spec/template/spec/containers/0/env/-
+  value: 
+    name: GOOGLE_APPLICATION_CREDENTIALS
+    value: /var/run/secrets/tokens/gcp-ksa/google-application-credentials.json
+- op: add
+  path: /spec/template/spec/containers/0/volumeMounts/-
+  value:
+    name: gcp-ksa
+    mountPath: /var/run/secrets/tokens/gcp-ksa
+    readOnly: true
+- op: add
+  path: /spec/template/spec/volumes/-
+  value: 
+    name: gcp-ksa
+    projected:
+      defaultMode: 420
+      sources:
+      - serviceAccountToken:
+          path: token
+          audience: FWI_WORKLOAD_IDENTITY_POOL
+          expirationSeconds: 172800
+      - configMap:
+          name: backend-adc
+          optional: false
+          items:
+            - key: "config"
+              path: "google-application-credentials.json"
+
+
+############## components/backend-fwi/kustomization.yaml ##############
+
+# Copyright 2024 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: kustomize.config.k8s.io/v1alpha1
+kind: Component
+commonLabels:
+  google-identity: fwi
+patches:
+- path: add-fwi.yaml
+  target:
+    kind: Deployment
+
+
+############## components/backend-service/kustomization.yaml ##############
+
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: kustomize.config.k8s.io/v1alpha1
+kind: Component
+commonLabels:
+  tier: backend
+components:
+  - ../add-tmp-dir
+
+############## components/backend/kustomization.yaml ##############
+
+# Copyright 2024 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: kustomize.config.k8s.io/v1alpha1
+kind: Component
+commonLabels:
+  application: bank-of-anthos
+patches:
+  - target:
+      kind: Deployment
+    patch: |-
+      - op: replace
+        path: /spec/template/spec/serviceAccountName
+        value: bank-of-anthos
+  - target:
+      kind: Job
+    patch: |-
+      - op: replace
+        path: /spec/template/spec/serviceAccountName
+        value: bank-of-anthos
+  - target:
+      kind: StatefulSet
+    patch: |-
+      - op: replace
+        path: /spec/template/spec/serviceAccount
+        value: bank-of-anthos
+
+
+############## components/bank-of-anthos/kustomization.yaml ##############
+
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: kustomize.config.k8s.io/v1alpha1
+kind: Component
+commonLabels:
+  application: bank-of-anthos
+components:
+  - ../istio-proxy-hold-application-patch
+patches:
+  - target:
+      kind: Deployment
+    patch: |-
+      - op: replace
+        path: /spec/template/spec/serviceAccountName
+        value: bank-of-anthos
+  - target:
+      kind: StatefulSet
+    patch: |-
+      - op: replace
+        path: /spec/template/spec/serviceAccount
+        value: bank-of-anthos
+
+
+############## components/cloud-sql-fwi/add-fwi.yaml ##############
+
+# Copyright 2024 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+kind: Deployment
+metadata:
+  name: ignored-by-kustomize
+spec:
+  template:
+    spec:
+      containers:
+      - name: cloud-sql-proxy
+        env:
+        - name: GOOGLE_APPLICATION_CREDENTIALS
+          value: /var/run/secrets/tokens/gcp-ksa/google-application-credentials.json
+        volumeMounts:
+        - name: gcp-ksa
+          mountPath: /var/run/secrets/tokens/gcp-ksa
+          readOnly: true
+      volumes:
+        - name: gcp-ksa
+          projected:
+            defaultMode: 420
+            sources:
+            - serviceAccountToken:
+                path: token
+                audience: FWI_WORKLOAD_IDENTITY_POOL
+                expirationSeconds: 172800
+            - configMap:
+                name: backend-adc
+                optional: false
+                items:
+                  - key: "config"
+                    path: "google-application-credentials.json"
+
+
+############## components/cloud-sql-fwi/kustomization.yaml ##############
+
+# Copyright 2024 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: kustomize.config.k8s.io/v1alpha1
+kind: Component
+commonLabels:
+  google-identity: fwi
+components:
+  - ../cloud-sql
+patches:
+- path: add-fwi.yaml
+  target:
+    kind: Deployment
+- path: add-fwi.yaml
+  target:
+    kind: Job
+
+
+############## components/cloud-sql/accounts-db.yaml ##############
+
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+kind: ConfigMap
+metadata:
+  name: accounts-db-config
+data:
+  POSTGRES_DB: accounts-db
+  POSTGRES_USER: admin
+  POSTGRES_PASSWORD: admin
+  ACCOUNTS_DB_URI: postgresql://admin:admin@127.0.0.1:5432/accounts-db
+
+############## components/cloud-sql/cloud-sql-proxy/add-container.yaml ##############
+
+# Copyright 2024 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+- op: add
+  path: /spec/template/spec/containers/-
+  value:
+    args:
+    - "--port=5432"
+    env:
+    - name: CSQL_PROXY_INSTANCE_CONNECTION_NAME
+      valueFrom:
+        configMapKeyRef:
+          name: cloud-sql-admin
+          key: connectionName
+    image: gcr.io/cloud-sql-connectors/cloud-sql-proxy:2.8.0-alpine@sha256:bd14f09aa889b490a361522293cc4aa539937b6d64bc740794843ac814e58f6f
+    name: cloud-sql-proxy
+    resources:
+      limits:
+        cpu: 250m
+        ephemeral-storage: 1Gi
+        memory: 100Mi
+      requests:
+        cpu: 250m
+        ephemeral-storage: 1Gi
+        memory: 100Mi
+
+
+############## components/cloud-sql/cloud-sql-proxy/replace-args-job.yaml ##############
+
+# Copyright 2024 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+kind: Job
+metadata:
+  name: ignored-by-kustomize
+spec:
+  template:
+    spec:
+      containers:
+      - args:
+        - "--port=5432"
+        - "--quitquitquit"
+        name: cloud-sql-proxy
+
+
+############## components/cloud-sql/kustomization.yaml ##############
+
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: kustomize.config.k8s.io/v1alpha1
+kind: Component
+patches:
+  - path: cloud-sql-proxy/add-container.yaml 
+    target:
+      kind: Deployment
+  - path: cloud-sql-proxy/add-container.yaml
+    target:
+      kind: Job
+  - path: cloud-sql-proxy/replace-args-job.yaml
+    target:
+      kind: Job
+  - path: ledger-db.yaml
+    target:
+      kind: ConfigMap
+      name: ledger-db-config
+  - path: accounts-db.yaml
+    target:
+      kind: ConfigMap
+      name: accounts-db-config
+
+
+############## components/cloud-sql/ledger-db.yaml ##############
+
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+kind: ConfigMap
+metadata:
+  name: ledger-db-config
+data:
+  POSTGRES_DB: ledger-db
+  POSTGRES_USER: admin
+  POSTGRES_PASSWORD: admin
+  SPRING_DATASOURCE_URL: jdbc:postgresql://127.0.0.1:5432/ledger-db
+  SPRING_DATASOURCE_USERNAME: admin # should match POSTGRES_USER
+  SPRING_DATASOURCE_PASSWORD: admin # should match POSTGRES_PASSWORD
+
+############## components/development/kustomization.yaml ##############
+
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: kustomize.config.k8s.io/v1alpha1
+kind: Component
+commonLabels:
+  environment: development
+
+
+############## components/frontend-fwi/add-fwi.yaml ##############
+
+# Copyright 2024 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+- op: add
+  path: /spec/template/spec/containers/0/env/-
+  value: 
+    name: GOOGLE_APPLICATION_CREDENTIALS
+    value: /var/run/secrets/tokens/gcp-ksa/google-application-credentials.json
+- op: add
+  path: /spec/template/spec/containers/0/volumeMounts/-
+  value:
+    name: gcp-ksa
+    mountPath: /var/run/secrets/tokens/gcp-ksa
+    readOnly: true
+- op: add
+  path: /spec/template/spec/volumes/-
+  value: 
+    name: gcp-ksa
+    projected:
+      defaultMode: 420
+      sources:
+      - serviceAccountToken:
+          path: token
+          audience: FWI_WORKLOAD_IDENTITY_POOL
+          expirationSeconds: 172800
+      - configMap:
+          name: frontend-adc
+          optional: false
+          items:
+            - key: "config"
+              path: "google-application-credentials.json"
+
+
+############## components/frontend-fwi/kustomization.yaml ##############
+
+# Copyright 2024 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: kustomize.config.k8s.io/v1alpha1
+kind: Component
+commonLabels:
+  google-identity: fwi
+patches:
+- path: add-fwi.yaml
+  target:
+    kind: Deployment
+
+
+############## components/frontend/kustomization.yaml ##############
+
+# Copyright 2024 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: kustomize.config.k8s.io/v1alpha1
+kind: Component
+commonLabels:
+  application: bank-of-anthos
+patches:
+  - target:
+      kind: Deployment
+    patch: |-
+      - op: replace
+        path: /spec/template/spec/serviceAccountName
+        value: bank-of-anthos
+
+############## components/istio-proxy-hold-application-patch/kustomization.yaml ##############
+
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: kustomize.config.k8s.io/v1alpha1
+kind: Component
+patches:
+  - target:
+      kind: Deployment
+    patch: |-
+      - op: add
+        path: /spec/template/metadata/annotations
+        value:
+          proxy.istio.io/config: '{ "holdApplicationUntilProxyStarts": true }'
+
+
+############## components/production/kustomization.yaml ##############
+
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: kustomize.config.k8s.io/v1alpha1
+kind: Component
+namespace: bank-of-anthos-production
+commonLabels:
+  environment: production
+
+
+############## components/service-cluster-ip/kustomization.yaml ##############
+
+# Copyright 2024 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: kustomize.config.k8s.io/v1alpha1
+kind: Component
+patches:
+- path: set-type-cluster-ip.yaml
+  target:
+    kind: Service
+
+
+############## components/service-cluster-ip/set-type-cluster-ip.yaml ##############
+
+# Copyright 2024 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: ignored-by-kustomize
+spec:
+  type: ClusterIP
+
+
+############## components/staging/kustomization.yaml ##############
+
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: kustomize.config.k8s.io/v1alpha1
+kind: Component
+namespace: bank-of-anthos-staging
+commonLabels:
+  cluster: staging
+
+############## frontend/cloudbuild.yaml ##############
+
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+steps:
+  - name: gcr.io/cloud-builders/gcloud
+    args: ['storage', 'cp', $_CACHE_URI, '/workspace/cache'] # always write skaffold cache to filename cache in workspace
+  - name: gcr.io/k8s-skaffold/skaffold:v2.22.0
+    args:
+      - "skaffold"
+      - "build"
+      - "--file-output=/workspace/artifacts.json"
+      - "--default-repo=$_CONTAINER_REGISTRY"
+      - "--cache-file=/workspace/$_CACHE" # set _CACHE to anything other than "cache" e.g. "no-cache" to reset skaffold cache
+      - "--module=$_TEAM"
+  - name: gcr.io/cloud-builders/gcloud
+    args: ['storage', 'cp', '/workspace/$_CACHE',  $_CACHE_URI]
+  - name: gcr.io/k8s-skaffold/skaffold:v2.22.0 # python set up should be baked into a custom builder image to speed up build times
+    script: |
+      #!/bin/bash
+      apt-get update && apt-get -y install curl
+      curl -LsSf https://astral.sh/uv/install.sh | sh
+      mv $HOME/.local/bin/uv* /usr/local/bin/
+      cd /workspace/src/$TEAM
+      skaffold test --build-artifacts=/workspace/artifacts.json --assume-yes
+    env:
+      - 'TEAM=$_TEAM'
+  - name: gcr.io/cloud-builders/gcloud
+    args: 
+      - "deploy"
+      - "releases"
+      - "create"
+      - "$_TEAM-$SHORT_SHA-$$DATE-$$TIME"
+      - "--delivery-pipeline=$_TEAM"
+      - "--build-artifacts=/workspace/artifacts.json"
+      - "--skaffold-file=src/$_TEAM/skaffold.yaml"
+      - "--region=$LOCATION"
+      - "--gcs-source-staging-dir=$_SOURCE_STAGING_BUCKET/$SHORT_SHA"
+options:
+  logging: CLOUD_LOGGING_ONLY
+
+############## frontend/Dockerfile ##############
+
+# Copyright 2021 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Use the official Python docker container, slim version, running Debian
+FROM python:3.14.6-slim@sha256:44dd04494ee8f3b538294360e7c4b3acb87c8268e4d0a4828a6500b1eff50061 AS base
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /bin/uv
+
+FROM base AS builder
+
+# Set working directory
+WORKDIR /app
+
+# Install dependencies.
+COPY pyproject.toml uv.lock ./
+RUN uv sync --frozen --no-dev --no-install-project
+
+FROM base
+
+# Set our working directory
+WORKDIR /app
+
+COPY --from=builder /app/.venv /app/.venv
+ENV PATH="/app/.venv/bin:$PATH"
+
+# show python logs as they occur
+ENV PYTHONUNBUFFERED=0
+
+# explicitly set a fallback log level in case no log level is defined by Kubernetes
+ENV LOG_LEVEL=info
+
+# Add application code.
+COPY . .
+
+# Ensure files are readable for non-root users
+RUN find . -type f -name '*' -exec chmod a+r '{}' ';'
+
+# Start server using gunicorn
+CMD gunicorn -b :$PORT --threads 4 --log-config logging.conf --log-level=$LOG_LEVEL "frontend:create_app()"
+
+
+############## frontend/k8s/base/frontend.yaml ##############
+
+# Copyright 2021 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+spec:
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      serviceAccountName: default
+      terminationGracePeriodSeconds: 5
+      securityContext:
+        fsGroup: 1000
+        runAsGroup: 1000
+        runAsNonRoot: true
+        runAsUser: 1000
+      containers:
+      - name: front
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - all
+          privileged: false
+          readOnlyRootFilesystem: true
+        image: frontend
+        env:
+        - name: VERSION
+          value: "dev"
+        - name: PORT
+          value: "8080"
+        - name: ENABLE_TRACING
+          value: "true"
+        - name: SCHEME
+          value: "http"
+         # Valid levels are debug, info, warning, error, critical. If no valid level is set, gunicorn will default to info.
+        - name: LOG_LEVEL
+          value: "info"
+        # Set to "true" to enable the CymbalBank logo + title
+        # - name: CYMBAL_LOGO
+        #   value: "false"
+        # Customize the bank name used in the header. Defaults to 'Bank of Anthos' - when CYMBAL_LOGO is true, uses 'CymbalBank'
+        # - name: BANK_NAME
+        #   value: ""
+        # Customize the cluster name if it cannot be retrieved from the metadata server
+        #- name: CLUSTER_NAME
+        #  value: "my-cluster"
+        - name: DEFAULT_USERNAME
+          valueFrom:
+            configMapKeyRef:
+              name: demo-data-config
+              key: DEMO_LOGIN_USERNAME
+        - name: DEFAULT_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              name: demo-data-config
+              key: DEMO_LOGIN_PASSWORD
+        - name: REGISTERED_OAUTH_CLIENT_ID
+          valueFrom:
+            configMapKeyRef:
+              name: oauth-config
+              key: DEMO_OAUTH_CLIENT_ID
+              optional: true
+        - name: ALLOWED_OAUTH_REDIRECT_URI
+          valueFrom:
+            configMapKeyRef:
+              name: oauth-config
+              key: DEMO_OAUTH_REDIRECT_URI
+              optional: true
+        # Customize the metadata server hostname to query for metadata
+        #- name: METADATA_SERVER
+        #  value: "my-metadata-server"
+        # Customize the pod zone if it cannot be retrieved from the metadata server
+        #- name: POD_ZONE
+        #  value: "my-zone"
+        # Customize the platform banner, options [alibaba, aws, azure, gcp, local, onprem]
+        # - name: ENV_PLATFORM
+        #   value: "gcp"
+        envFrom:
+        - configMapRef:
+            name: environment-config
+        - configMapRef:
+            name: service-api-config
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 8080
+          initialDelaySeconds: 10
+          periodSeconds: 5
+          timeoutSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /ready
+            port: 8080
+          initialDelaySeconds: 60
+          periodSeconds: 15
+          timeoutSeconds: 30
+        resources:
+          requests:
+            cpu: 100m
+            memory: 64Mi
+          limits:
+            cpu: 250m
+            memory: 128Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend
+spec:
+  type: LoadBalancer
+  selector:
+    app: frontend
+  ports:
+  - name: http
+    port: 80
+    targetPort: 8080
+
+############## frontend/k8s/base/kustomization.yaml ##############
+
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+commonLabels:
+  tier: web
+  team: frontend
+resources:
+  - frontend.yaml
+components:
+  - ../../../components/add-tmp-dir
+  - ../../../components/add-public-key-volume
+  - ../../../components/bank-of-anthos
+
+
+############## frontend/k8s/overlays/development/kustomization.yaml ##############
+
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../base
+components:
+  - ../../../../components/development
+
+############## frontend/k8s/overlays/production-fwi-ingress/frontend-ingress.yaml ##############
+
+# Copyright 2024 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: frontend
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: frontend
+            port:
+              number: 80
+
+
+############## frontend/k8s/overlays/production-fwi-ingress/kustomization.yaml ##############
+
+# Copyright 2024 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../base
+  - frontend-ingress.yaml
+components:
+  - ../../../../components/production
+  - ../../../../components/frontend
+  - ../../../../components/frontend-fwi
+  - ../../../../components/service-cluster-ip
+
+
+############## frontend/k8s/overlays/production-fwi/kustomization.yaml ##############
+
+# Copyright 2024 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../base
+components:
+  - ../../../../components/production
+  - ../../../../components/frontend
+  - ../../../../components/frontend-fwi
+
+
+############## frontend/k8s/overlays/production/backend-config.yaml ##############
+
+# Copyright 2021 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+apiVersion: cloud.google.com/v1
+kind: BackendConfig
+metadata:
+  name: frontend-backend-config
+spec:
+  securityPolicy:
+    name: bank-of-anthos-security-policy
+
+
+############## frontend/k8s/overlays/production/frontend-config.yaml ##############
+
+# Copyright 2021 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+apiVersion: networking.gke.io/v1beta1
+kind: FrontendConfig
+metadata:
+  name: frontend-frontend-config
+spec:
+  sslPolicy: bank-of-anthos-ssl-policy
+  redirectToHttps:
+    enabled: true
+    responseCodeName: MOVED_PERMANENTLY_DEFAULT
+
+
+############## frontend/k8s/overlays/production/frontend-ingress.yaml ##############
+
+# Copyright 2021 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: frontend-ingress
+  annotations:
+    kubernetes.io/ingress.global-static-ip-name: bank-of-anthos-ip
+    networking.gke.io/managed-certificates: bank-of-anthos-cert
+    networking.gke.io/v1beta1.FrontendConfig: frontend-frontend-config
+spec:
+  defaultBackend:
+    service:
+      name: frontend
+      port:
+        number: 80
+  rules:
+  - http:
+      paths:
+      - path: /*
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: frontend
+            port:
+              number: 80
+
+
+############## frontend/k8s/overlays/production/frontend-service.yaml ##############
+
+# Copyright 2021 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend
+  annotations:
+    cloud.google.com/neg: '{"ingress": true}'
+    cloud.google.com/backend-config: '{"default": "frontend-backend-config"}'
+spec:
+  type: ClusterIP
+
+
+############## frontend/k8s/overlays/production/kustomization.yaml ##############
+
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../base
+  - backend-config.yaml
+  - frontend-config.yaml
+  - frontend-ingress.yaml
+  - managed-certificate.yaml
+components:
+  - ../../../../components/production
+patchesStrategicMerge:
+  - frontend-service.yaml
+
+
+############## frontend/k8s/overlays/production/managed-certificate.yaml ##############
+
+# Copyright 2021 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+apiVersion: networking.gke.io/v1
+kind: ManagedCertificate
+metadata:
+  name: bank-of-anthos-cert
+spec:
+  domains:
+    - cymbal-bank.fsi.cymbal.dev
+
+
+############## frontend/k8s/overlays/staging/kustomization.yaml ##############
+
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../base
+components:
+  - ../../../../components/staging
+
+############## frontend/skaffold.yaml ##############
+
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: skaffold/v4beta1
+kind: Config
+metadata:
+  name: frontend
+requires:
+- configs:
+  - e2e-tests
+  path: ../../skaffold-e2e.yaml
+build:
+  artifacts:
+  - image: frontend
+    context: .
+  tagPolicy:
+    sha256: {}
+test:
+  - image: frontend # code style
+    context: .
+    custom:
+      - command: |
+          uv run pylint --rcfile=../../.pylintrc *.py
+        timeoutSeconds: 180
+        dependencies: 
+          paths:
+            - "**/*.py"
+            - "../../.pylintrc"
+            - "pyproject.toml"
+            - "uv.lock"
+deploy:
+  kubectl: {}
+  tolerateFailuresUntilDeadline: true
+profiles:
+- name: development
+  activation:
+  - command: dev
+  manifests:
+    kustomize:
+      paths:
+      - k8s/overlays/development
+      - ../../iac/acm-multienv-cicd-anthos-autopilot/overlays/development
+- name: staging
+  manifests:
+    kustomize:
+      paths:
+      - k8s/overlays/staging
+- name: production
+  manifests:
+    kustomize:
+      paths:
+      - k8s/overlays/production
+- name: production-fwi
+  manifests:
+    kustomize:
+      paths:
+      - k8s/overlays/production-fwi
+- name: production-fwi-ingress
+  manifests:
+    kustomize:
+      paths:
+      - k8s/overlays/production-fwi-ingress
+
+
+############## ledger/balancereader/k8s/base/balancereader.yaml ##############
+
+# Copyright 2019 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: balancereader
+spec:
+  selector:
+    matchLabels:
+      app: balancereader
+  template:
+    metadata:
+      labels:
+        app: balancereader
+    spec:
+      serviceAccountName: default
+      terminationGracePeriodSeconds: 5
+      securityContext:
+        fsGroup: 1000
+        runAsGroup: 1000
+        runAsNonRoot: true
+        runAsUser: 1000
+      containers:
+      - name: balancereader
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - all
+          privileged: false
+          readOnlyRootFilesystem: true
+        image: balancereader
+        env:
+        - name: VERSION
+          value: "dev"
+        - name: PORT
+          value: "8080"
+        # toggle Cloud Trace export
+        - name: ENABLE_TRACING
+          value: "true"
+        - name: ENABLE_METRICS
+          value: "true"
+        - name: POLL_MS
+          value: "100"
+        - name: CACHE_SIZE
+          value: "1000000"
+        # tell Java to obey container memory limits
+        - name: JVM_OPTS
+          value: "-XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -Xms256m -Xmx512m"
+        # Valid levels are debug, info, warn, error, fatal.
+        # If no valid level is set, will default to info.
+        - name: LOG_LEVEL
+          value: "info"
+        - name: NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        envFrom:
+        - configMapRef:
+            name: environment-config
+        - configMapRef:
+            name: ledger-db-config
+        resources:
+          requests:
+            cpu: 100m
+            memory: 256Mi
+            ephemeral-storage: 0.5Gi
+          limits:
+            cpu: 500m
+            memory: 512Mi
+            ephemeral-storage: 0.5Gi
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 8080
+          initialDelaySeconds: 60
+          periodSeconds: 5
+          timeoutSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /healthy
+            port: 8080
+          initialDelaySeconds: 120
+          periodSeconds: 5
+          timeoutSeconds: 10
+        startupProbe:
+          httpGet:
+            path: /healthy
+            port: 8080
+          failureThreshold: 30
+          periodSeconds: 10
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: balancereader
+spec:
+  type: ClusterIP
+  selector:
+    app: balancereader
+  ports:
+  - name: http
+    port: 8080
+    targetPort: 8080
+
+############## ledger/balancereader/k8s/base/kustomization.yaml ##############
+
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - balancereader.yaml
+components:
+  - ../../../components/ledger
+  - ../../../components/ledger-backend-service
+
+
+############## ledger/balancereader/k8s/overlays/development/kustomization.yaml ##############
+
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../base
+components:
+  - ../../../../../components/development
+
+############## ledger/balancereader/k8s/overlays/production-fwi/kustomization.yaml ##############
+
+# Copyright 2024 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../base
+components:
+  - ../../../../../components/production
+  - ../../../../../components/backend-fwi
+  - ../../../../../components/cloud-sql-fwi
+
+
+############## ledger/balancereader/k8s/overlays/production/kustomization.yaml ##############
+
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../base
+components:
+  - ../../../../../components/production
+  - ../../../../../components/cloud-sql
+
+############## ledger/balancereader/k8s/overlays/staging/kustomization.yaml ##############
+
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../base
+components:
+  - ../../../../../components/staging
+  - ../../../../../components/cloud-sql
+
+############## ledger/balancereader/skaffold.yaml ##############
+
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: skaffold/v4beta1
+kind: Config
+metadata:
+  name: balancereader
+requires:
+- configs:
+  - e2e-tests
+  path: ../../../skaffold-e2e.yaml
+- configs:
+  - ledger-db
+  path: ../ledger-db/skaffold.yaml
+build:
+  artifacts:
+  - image: balancereader
+    context: ../../../
+    jib:
+      project: src/ledger/balancereader
+      type: maven
+  tagPolicy:
+    sha256: {}
+test:
+  - image: balancereader # code style
+    context: .
+    custom:
+      - command: ../../../mvnw checkstyle:check
+        timeoutSeconds: 1200
+  - image: balancereader # unit tests
+    context: .
+    custom:
+      - command: ../../../mvnw test
+        timeoutSeconds: 1200
+  - image: balancereader # code coverage
+    context: .
+    custom:
+      - command: |
+          ../../../mvnw jacoco:report
+          awk -F, \
+            '{ instructions += $4 + $5; covered += $5 } END \
+            { print covered, "/", instructions, " instructions covered"; \
+            print int(100*covered/instructions), "% covered" }' \
+            target/site/jacoco/jacoco.csv
+        timeoutSeconds: 1200
+deploy:
+  kubectl: {}
+profiles:
+- name: development
+  activation:
+  - command: dev
+  manifests:
+    kustomize:
+      paths:
+      - k8s/overlays/development
+      - ../../../iac/acm-multienv-cicd-anthos-autopilot/overlays/development
+- name: staging
+  manifests:
+    kustomize:
+      paths:
+      - k8s/overlays/staging
+- name: production
+  manifests:
+    kustomize:
+      paths:
+      - k8s/overlays/production
+- name: production-fwi
+  manifests:
+    kustomize:
+      paths:
+      - k8s/overlays/production-fwi
+
+
+############## ledger/cloudbuild.yaml ##############
+
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+steps:
+  - name: gcr.io/cloud-builders/gcloud
+    id: download-skaffold-cache
+    args: ['storage', 'cp', $_CACHE_URI, '/workspace/cache'] # always write skaffold cache to filename cache in workspace
+  - name: gcr.io/k8s-skaffold/skaffold:v2.22.0
+    id: build-and-push-images
+    args:
+      - "skaffold"
+      - "build"
+      - "--file-output=/workspace/artifacts.json"
+      - "--default-repo=$_CONTAINER_REGISTRY"
+      - "--cache-file=/workspace/$_CACHE" # set _CACHE to anything other than "cache" e.g. "no-cache" to reset skaffold cache
+      - "--module=$_SERVICE"
+  - name: gcr.io/cloud-builders/gcloud
+    id: upload-skaffold-cache
+    args: ['storage', 'cp', '/workspace/$_CACHE',  $_CACHE_URI]
+  - name: gcr.io/k8s-skaffold/skaffold:v2.22.0
+    id: run-tests
+    script: MAVEN_USER_HOME=$MAVEN_USER_HOME skaffold test --build-artifacts=/workspace/artifacts.json --module=$SERVICE --assume-yes
+    env:
+      - "TEAM=$_TEAM"
+      - "SERVICE=$_SERVICE"
+      - "MAVEN_USER_HOME=/workspace/.m2"
+    timeout: 1200s
+  - name: gcr.io/cloud-builders/gcloud
+    id: trigger-release
+    args: 
+      - "deploy"
+      - "releases"
+      - "create"
+      - "$_SERVICE-$SHORT_SHA"
+      - "--delivery-pipeline=$_SERVICE"
+      - "--build-artifacts=/workspace/artifacts.json"
+      - "--skaffold-file=src/$_TEAM/$_SERVICE/skaffold.yaml"
+      - "--region=$LOCATION"
+      - "--gcs-source-staging-dir=$_SOURCE_STAGING_BUCKET/$SHORT_SHA"
+options:
+  logging: CLOUD_LOGGING_ONLY
+  env:
+  - "TEAM=$_TEAM"
+  - "SERVICE=$_SERVICE"
+
+
+############## ledger/components/ledger-backend-service/kustomization.yaml ##############
+
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: kustomize.config.k8s.io/v1alpha1
+kind: Component
+commonLabels:
+  tier: backend
+components:
+  - ../../../components/backend-service
+  - ../../../components/add-public-key-volume
+
+
+############## ledger/components/ledger/kustomization.yaml ##############
+
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: kustomize.config.k8s.io/v1alpha1
+kind: Component
+commonLabels:
+  team: ledger
+components:
+  - ../../../components/bank-of-anthos
+
+############## ledger/ledger-db/Dockerfile ##############
+
+# Copyright 2020 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+FROM postgres:16.15-alpine@sha256:cf78e76683b9ca8c5733cbbdce6c9262b45b6767934dd0a95e671f9a0fc20685
+
+# Need to get coreutils to get the date bash function working properly:
+RUN apk add --no-cache coreutils && rm -rf /var/cache/apk/*
+
+# Files for initializing the database.
+COPY initdb/0_init_tables.sql initdb/1_create_transactions.sh /docker-entrypoint-initdb.d/
+RUN chmod 755  /docker-entrypoint-initdb.d/0_init_tables.sql /docker-entrypoint-initdb.d/1_create_transactions.sh
+
+
+############## ledger/ledger-db/k8s/base/config.yaml ##############
+
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ledger-db-config
+  labels:
+    app: ledger-db
+data:
+  POSTGRES_DB: postgresdb
+  POSTGRES_USER: admin
+  POSTGRES_PASSWORD: password
+  SPRING_DATASOURCE_URL: jdbc:postgresql://ledger-db:5432/postgresdb
+  SPRING_DATASOURCE_USERNAME: admin # should match POSTGRES_USER
+  SPRING_DATASOURCE_PASSWORD: password # should match POSTGRES_PASSWORD
+
+
+############## ledger/ledger-db/k8s/base/kustomization.yaml ##############
+
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+commonLabels:
+  tier: db
+resources:
+  - config.yaml
+components:
+  - ../../../components/ledger
+
+
+############## ledger/ledger-db/k8s/components/init-db-job/init-db-job.yaml ##############
+
+# Copyright 2020 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# kubectl create configmap ledger-schema-config --from-file=src/ledger-db/initdb/0-ledger-schema.sql --dry-run -o yaml (copy and add below)
+# kubectl create configmap ledger-schema-config --from-file=src/ledger-db/initdb/1-load-testdata.sh --dry-run -o yaml (copy and add below)
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ledger-schema-config
+data:
+  initialize-database.sh: |
+    #!/bin/bash
+
+    COUNTER=0
+    ERROR=0
+    SLEEP_TIME=60
+    DB_READY=0
+    INIT_SQL_SCRIPT="/scripts/0-ledger-schema.sql"
+    TEST_SQL_SCRIPT="/scripts/1-load-testdata.sh"
+
+    HOST=${1:-'127.0.0.1'}
+    PORT=${2:-'5432'}
+    DB_NAME=${3:-'default'}
+
+    # Initial wait for cloud-sql-proxy
+    sleep 20
+
+    while [ $COUNTER -lt 10 ]; do
+        let COUNTER=$COUNTER+1
+
+        echo "Attempt # ${COUNTER}: Checking connectivity to ${HOST}:${PORT}/${DB_NAME}..."
+        pg_isready --host=${HOST} --port=${PORT} --dbname=${DB_NAME}
+
+        if [ $? -gt 0 ]; then
+            echo "Attempt # ${COUNTER}: Database is not ready, trying again in ${SLEEP_TIME} seconds"
+            sleep $SLEEP_TIME
+        else
+            echo "Database is ready to connect"
+            let DB_READY=1
+            break
+        fi
+    done
+
+    if [ "${DB_READY}" -eq 1 ]; then
+        echo "Running initialization script"
+        psql --host=${HOST} --port=${PORT} --dbname=${DB_NAME} -f ${INIT_SQL_SCRIPT}
+        if [ $? -gt 0 ]; then
+            echo "Problems running the initialization script"
+            ERROR=$((ERROR+1))
+        else
+            echo "Run Test Data"
+            . ${TEST_SQL_SCRIPT}
+            if [ $? -gt 0 ]; then
+              echo "Problems running the test data script"
+              ERROR=$((ERROR+1))
+            fi
+        fi
+    else
+        echo "Failed to connect to the database"
+        ERROR=$((ERROR+1))
+    fi
+
+    wget --post-data '' http://127.0.0.1:9091/quitquitquit 2>&1
+
+    return ${ERROR}
+  0-ledger-schema.sql: |
+    /*
+     * Copyright 2020, Google LLC.
+     *
+     * Licensed under the Apache License, Version 2.0 (the "License");
+     * you may not use this file except in compliance with the License.
+     * You may obtain a copy of the License at
+     *
+     *     http://www.apache.org/licenses/LICENSE-2.0
+     *
+     * Unless required by applicable law or agreed to in writing, software
+     * distributed under the License is distributed on an "AS IS" BASIS,
+     * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     * See the License for the specific language governing permissions and
+     * limitations under the License.
+     */
+
+    CREATE TABLE TRANSACTIONS (
+        TRANSACTION_ID BIGINT GENERATED BY DEFAULT AS IDENTITY PRIMARY KEY,
+        FROM_ACCT CHAR(10) NOT NULL,
+        TO_ACCT CHAR(10) NOT NULL,
+        FROM_ROUTE CHAR(9) NOT NULL,
+        TO_ROUTE CHAR(9) NOT NULL,
+        AMOUNT INT NOT NULL,
+        TIMESTAMP TIMESTAMP NOT NULL
+    );
+    -- index account number/routing number pairs
+    CREATE INDEX ON TRANSACTIONS (FROM_ACCT, FROM_ROUTE, TIMESTAMP);
+    CREATE INDEX ON TRANSACTIONS (TO_ACCT, TO_ROUTE, TIMESTAMP);
+    -- append only ledger; prevent updates or deletes
+    CREATE RULE PREVENT_UPDATE AS
+      ON UPDATE TO TRANSACTIONS
+      DO INSTEAD NOTHING;
+    CREATE RULE PREVENT_DELETE AS
+      ON DELETE TO TRANSACTIONS
+      DO INSTEAD NOTHING;
+  1-load-testdata.sh: |
+    #!/bin/bash
+    # Copyright 2020 Google LLC
+    #
+    # Licensed under the Apache License, Version 2.0 (the "License");
+    # you may not use this file except in compliance with the License.
+    # You may obtain a copy of the License at
+    #
+    #      http://www.apache.org/licenses/LICENSE-2.0
+    #
+    # Unless required by applicable law or agreed to in writing, software
+    # distributed under the License is distributed on an "AS IS" BASIS,
+    # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    # See the License for the specific language governing permissions and
+    # limitations under the License.
+
+
+    # Create demo transactions in the ledger for the demo user accounts.
+    #
+    # Gerenated transactions follow a pattern of biweekly large deposits with
+    # periodic small payments to randomly choosen accounts.
+    #
+    # To run, set environment variable USE_DEMO_DATA="True"
+
+    set -u
+
+
+    # skip adding transactions if not enabled
+    if [ -z "$USE_DEMO_DATA" ] && [ "$USE_DEMO_DATA" != "True"  ]; then
+        echo "\$USE_DEMO_DATA not \"True\"; no demo transactions added"
+        exit 0
+    fi
+
+
+    # Expected environment variables
+    readonly ENV_VARS=(
+      "POSTGRES_DB"
+      "POSTGRES_USER"
+      "LOCAL_ROUTING_NUM"
+    )
+
+
+    add_transaction() {
+        DATE=$(date -u +"%Y-%m-%d %H:%M:%S%z" --date="@$(($6))")
+        echo "adding demo transaction: $1 -> $2"
+        psql -X -v ON_ERROR_STOP=1 -v fromacct="$1" -v toacct="$2" -v fromroute="$3" -v toroute="$4" -v amount="$5" --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-EOSQL
+            INSERT INTO TRANSACTIONS (FROM_ACCT, TO_ACCT, FROM_ROUTE, TO_ROUTE, AMOUNT, TIMESTAMP)
+            VALUES (:'fromacct', :'toacct', :'fromroute', :'toroute', :'amount', '$DATE');
+    EOSQL
+    }
+
+
+    create_transactions() {
+        PAY_PERIODS=3
+        DAYS_BETWEEN_PAY=14
+        SECONDS_IN_PAY_PERIOD=$(( 86400 * $DAYS_BETWEEN_PAY  ))
+        DEPOSIT_AMOUNT=250000
+
+        # create a UNIX timestamp in seconds since the Epoch
+        START_TIMESTAMP=$(( $(date +%s) - $(( $(($PAY_PERIODS+1)) * $SECONDS_IN_PAY_PERIOD  ))  ))
+
+        for i in $(seq 1 $PAY_PERIODS); do
+            # create deposit transaction for each user
+            for account in ${USER_ACCOUNTS[@]}; do
+                add_transaction "$EXTERNAL_ACCOUNT" "$account" "$EXTERNAL_ROUTING" "$LOCAL_ROUTING_NUM" $DEPOSIT_AMOUNT $START_TIMESTAMP
+            done
+
+            # create 15-20 payments between users
+            TRANSACTIONS_PER_PERIOD=$(shuf -i 15-20 -n1)
+            for p in $(seq 1 $TRANSACTIONS_PER_PERIOD); do
+                # randomly generate an amount between $10-$100
+                AMOUNT=$(shuf -i 1000-10000 -n1)
+
+                # randomly select a sender and receiver
+                SENDER_ACCOUNT=${USER_ACCOUNTS[$RANDOM % ${#USER_ACCOUNTS[@]}]}
+                RECIPIENT_ACCOUNT=${USER_ACCOUNTS[$RANDOM % ${#USER_ACCOUNTS[@]}]}
+                # if sender equals receiver, send to a random anonymous account
+                if [[ "$SENDER_ACCOUNT" == "$RECIPIENT_ACCOUNT" ]]; then
+                    RECIPIENT_ACCOUNT=$(shuf -i 1000000000-9999999999 -n1)
+                fi
+
+                TIMESTAMP=$(( $START_TIMESTAMP + $(( $SECONDS_IN_PAY_PERIOD * $p / $(($TRANSACTIONS_PER_PERIOD + 1 )) )) ))
+
+                add_transaction "$SENDER_ACCOUNT" "$RECIPIENT_ACCOUNT" "$LOCAL_ROUTING_NUM" "$LOCAL_ROUTING_NUM" $AMOUNT $TIMESTAMP
+            done
+
+            START_TIMESTAMP=$(( $START_TIMESTAMP + $(( $i * $SECONDS_IN_PAY_PERIOD  )) ))
+        done
+    }
+
+
+    create_ledger() {
+      # Account numbers for users 'testuser', 'alice', 'bob', and 'eve'.
+      USER_ACCOUNTS=("1011226111" "1033623433" "1055757655" "1077441377")
+      # Numbers for external account 'External Bank'
+      EXTERNAL_ACCOUNT="9099791699"
+      EXTERNAL_ROUTING="808889588"
+
+      create_transactions
+    }
+
+
+    main() {
+      # Check environment variables are set
+      for env_var in ${ENV_VARS[@]}; do
+        if [[ -z "${env_var}" ]]; then
+          echo "Error: environment variable '$env_var' not set. Aborting."
+          exit 1
+        fi
+      done
+
+      create_ledger
+    }
+
+
+    main
+
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: populate-ledger-db
+spec:
+  activeDeadlineSeconds: 300
+  template:
+    metadata:
+      annotations:
+        sidecar.istio.io/inject: "false"
+    spec:
+      containers:
+      - command: ['bash', '-c','. /scripts/initialize-database.sh 127.0.0.1 5432 ledger-db']
+        env:
+        - name: PGHOSTADDR
+          value: "127.0.0.1"
+        - name: PGPASSWORD
+          valueFrom:
+            configMapKeyRef:
+              key: POSTGRES_PASSWORD
+              name: ledger-db-config
+        - name: PGUSER
+          valueFrom:
+            configMapKeyRef:
+              key: POSTGRES_USER
+              name: ledger-db-config
+        envFrom:
+        - configMapRef:
+            name: demo-data-config
+        - configMapRef:
+            name: environment-config
+        - configMapRef:
+            name: ledger-db-config
+        image: postgres:16.15-alpine@sha256:cf78e76683b9ca8c5733cbbdce6c9262b45b6767934dd0a95e671f9a0fc20685
+        name: populate-ledger-db
+        resources:
+          limits:
+            cpu: 100m
+            ephemeral-storage: 1Gi
+            memory: 256Mi
+          requests:
+            cpu: 100m
+            ephemeral-storage: 1Gi
+            memory: 256Mi
+        volumeMounts:
+        - name: scripts
+          mountPath: "/scripts"
+          readOnly: true
+      restartPolicy: Never
+      serviceAccountName: bank-of-anthos
+      volumes:
+      - name: scripts
+        configMap:
+          name: ledger-schema-config
+
+
+############## ledger/ledger-db/k8s/components/init-db-job/kustomization.yaml ##############
+
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: kustomize.config.k8s.io/v1alpha1
+kind: Component
+resources:
+  - init-db-job.yaml
+
+
+############## ledger/ledger-db/k8s/overlays/development/kustomization.yaml ##############
+
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+commonLabels:
+  tier: db
+resources:
+  - ../../base
+  - ledger-db.yaml
+components:
+  - ../../../../components/ledger
+  - ../../../../../components/development
+
+
+############## ledger/ledger-db/k8s/overlays/development/ledger-db.yaml ##############
+
+# Copyright 2019 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+kind: StatefulSet
+apiVersion: apps/v1
+metadata:
+  name: ledger-db
+spec:
+  serviceName: "ledger-db"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ledger-db
+  template:
+    metadata:
+      labels:
+        app: ledger-db
+    spec:
+      serviceAccountName: default
+      containers:
+        - name: postgres
+          image: ledger-db
+          ports:
+            - containerPort: 5432
+          envFrom:
+            - configMapRef:
+                name: environment-config
+            - configMapRef:
+                name: ledger-db-config
+            - configMapRef:
+                name: demo-data-config
+          resources:
+            requests:
+              cpu: 100m
+              memory: 512Mi
+            limits:
+              cpu: 250m
+              memory: 1Gi
+          volumeMounts:
+            - name: postgresdb
+              mountPath: /var/lib/postgresql/data
+              subPath: postgres
+      volumes:
+        - name: postgresdb
+          emptyDir: {}
+---
+  apiVersion: v1
+  kind: Service
+  metadata:
+    name: ledger-db
+  spec:
+    type: ClusterIP
+    selector:
+      app: ledger-db
+    ports:
+    - name: tcp
+      port: 5432
+      targetPort: 5432
+
+############## ledger/ledger-db/k8s/overlays/init-db-production-fwi/kustomization.yaml ##############
+
+# Copyright 2024 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../base
+components:
+  - ../../components/init-db-job
+  - ../../../../../components/cloud-sql-fwi
+  - ../../../../../components/backend
+  - ../../../../../components/production
+
+
+############## ledger/ledger-db/k8s/overlays/init-db-production/kustomization.yaml ##############
+
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../base
+components:
+  - ../../components/init-db-job
+  - ../../../../../components/production
+  - ../../../../../components/cloud-sql
+
+############## ledger/ledger-db/k8s/overlays/init-db-staging/kustomization.yaml ##############
+
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../base
+components:
+  - ../../components/init-db-job
+  - ../../../../../components/staging
+  - ../../../../../components/cloud-sql
+
+
+############## ledger/ledger-db/k8s/overlays/production-fwi/kustomization.yaml ##############
+
+# Copyright 2024 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../base
+components:
+  - ../../../../../components/production
+  - ../../../../../components/cloud-sql-fwi
+
+
+############## ledger/ledger-db/k8s/overlays/production/kustomization.yaml ##############
+
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../base
+components:
+  - ../../../../../components/production
+  - ../../../../../components/cloud-sql
+
+############## ledger/ledger-db/k8s/overlays/staging/kustomization.yaml ##############
+
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../base
+components:
+  - ../../../../../components/staging
+  - ../../../../../components/cloud-sql
+
+############## ledger/ledger-db/skaffold.yaml ##############
+
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: skaffold/v4beta1
+kind: Config
+metadata:
+  name: ledger-db
+deploy:
+  kubectl: {}
+profiles:
+- name: development
+  activation:
+  - command: dev
+  build:
+    artifacts:
+    - image: ledger-db
+      context: .
+    tagPolicy:
+      sha256: {}
+  manifests:
+    kustomize:
+      paths:
+      - k8s/overlays/development
+      - ../../../iac/acm-multienv-cicd-anthos-autopilot/overlays/development
+- name: staging
+  manifests:
+    kustomize:
+      paths:
+      - k8s/overlays/staging
+- name: production
+  manifests:
+    kustomize:
+      paths:
+      - k8s/overlays/production
+- name: production-fwi
+  manifests:
+    kustomize:
+      paths:
+      - k8s/overlays/production-fwi
+- name: init-db-staging
+  manifests:
+    kustomize:
+      paths:
+      - k8s/overlays/init-db-staging
+- name: init-db-production
+  manifests:
+    kustomize:
+      paths:
+      - k8s/overlays/init-db-production
+- name: init-db-production-fwi
+  manifests:
+    kustomize:
+      paths:
+      - k8s/overlays/init-db-production-fwi
+
+
+############## ledger/ledgerwriter/k8s/base/kustomization.yaml ##############
+
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ledgerwriter.yaml
+components:
+  - ../../../components/ledger
+  - ../../../components/ledger-backend-service
+
+
+############## ledger/ledgerwriter/k8s/base/ledgerwriter.yaml ##############
+
+# Copyright 2019 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ledgerwriter
+spec:
+  selector:
+    matchLabels:
+      app: ledgerwriter
+  template:
+    metadata:
+      labels:
+        app: ledgerwriter
+    spec:
+      serviceAccountName: default
+      terminationGracePeriodSeconds: 5
+      securityContext:
+        fsGroup: 1000
+        runAsGroup: 1000
+        runAsNonRoot: true
+        runAsUser: 1000
+      containers:
+      - name: ledgerwriter
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - all
+          privileged: false
+          readOnlyRootFilesystem: true
+        image: ledgerwriter
+        env:
+        - name: VERSION
+          value: "dev"
+        - name: PORT
+          value: "8080"
+        - name: ENABLE_TRACING
+          value: "true"
+        - name: ENABLE_METRICS
+          value: "true"
+         # tell Java to obey container memory limits
+        - name: JVM_OPTS
+          value: "-XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -Xms256m -Xmx512m"
+        # service level override of log level
+        - name: LOG_LEVEL
+          value: "info"
+        - name: NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        envFrom:
+        - configMapRef:
+            name: environment-config
+        - configMapRef:
+            name: service-api-config
+        - configMapRef:
+            name: ledger-db-config
+        resources:
+          requests:
+            cpu: 100m
+            memory: 256Mi
+            ephemeral-storage: 0.5Gi
+          limits:
+            cpu: 500m
+            memory: 512Mi
+            ephemeral-storage: 0.5Gi
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 8080
+          initialDelaySeconds: 60
+          periodSeconds: 5
+          timeoutSeconds: 10
+        startupProbe:
+          httpGet:
+            path: /ready
+            port: 8080
+          failureThreshold: 30
+          periodSeconds: 10
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ledgerwriter
+spec:
+  type: ClusterIP
+  selector:
+    app: ledgerwriter
+  ports:
+  - name: http
+    port: 8080
+    targetPort: 8080
+
+############## ledger/ledgerwriter/k8s/overlays/development/kustomization.yaml ##############
+
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../base
+components:
+  - ../../../../../components/development
+
+############## ledger/ledgerwriter/k8s/overlays/production-fwi/kustomization.yaml ##############
+
+# Copyright 2024 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../base
+components:
+  - ../../../../../components/production
+  - ../../../../../components/backend-fwi
+  - ../../../../../components/cloud-sql-fwi
+
+
+############## ledger/ledgerwriter/k8s/overlays/production/kustomization.yaml ##############
+
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../base
+components:
+  - ../../../../../components/production
+  - ../../../../../components/cloud-sql
+
+############## ledger/ledgerwriter/k8s/overlays/staging/kustomization.yaml ##############
+
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../base
+components:
+  - ../../../../../components/staging
+  - ../../../../../components/cloud-sql
+
+############## ledger/ledgerwriter/skaffold.yaml ##############
+
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: skaffold/v4beta1
+kind: Config
+metadata:
+  name: ledgerwriter
+requires:
+- configs:
+  - e2e-tests
+  path: ../../../skaffold-e2e.yaml
+- configs:
+  - ledger-db
+  path: ../ledger-db/skaffold.yaml
+build:
+  artifacts:
+  - image: ledgerwriter
+    context: ../../../
+    jib:
+      project: src/ledger/ledgerwriter
+      type: maven
+  tagPolicy:
+    sha256: {}
+test:
+  - image: ledgerwriter # code style
+    context: .
+    custom:
+      - command: ../../../mvnw checkstyle:check
+        timeoutSeconds: 1200
+  - image: ledgerwriter # unit tests
+    context: .
+    custom:
+      - command: ../../../mvnw test
+        timeoutSeconds: 1200
+  - image: ledgerwriter # code coverage
+    context: .
+    custom:
+      - command: |
+          ../../../mvnw jacoco:report
+          awk -F, \
+            '{ instructions += $4 + $5; covered += $5 } END \
+            { print covered, "/", instructions, " instructions covered"; \
+            print int(100*covered/instructions), "% covered" }' \
+            target/site/jacoco/jacoco.csv
+        timeoutSeconds: 1200
+deploy:
+  kubectl: {}
+profiles:
+- name: development
+  activation:
+  - command: dev
+  manifests:
+    kustomize:
+      paths:
+      - k8s/overlays/development
+      - ../../../iac/acm-multienv-cicd-anthos-autopilot/overlays/development
+- name: staging
+  manifests:
+    kustomize:
+      paths:
+      - k8s/overlays/staging
+- name: production
+  manifests:
+    kustomize:
+      paths:
+      - k8s/overlays/production
+- name: production-fwi
+  manifests:
+    kustomize:
+      paths:
+      - k8s/overlays/production-fwi
+
+
+############## ledger/skaffold.yaml ##############
+
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: skaffold/v4beta1
+kind: Config
+metadata:
+  name: ledger
+requires:
+- configs:
+  - e2e-tests
+  path: ../../skaffold-e2e.yaml
+- configs:
+  - balancereader
+  path: balancereader/skaffold.yaml
+- configs:
+  - ledgerwriter
+  path: ledgerwriter/skaffold.yaml
+- configs:
+  - transactionhistory
+  path: transactionhistory/skaffold.yaml
+deploy:
+  tolerateFailuresUntilDeadline: true
+
+
+############## ledger/transactionhistory/k8s/base/kustomization.yaml ##############
+
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - transactionhistory.yaml
+components:
+  - ../../../components/ledger
+  - ../../../components/ledger-backend-service
+
+############## ledger/transactionhistory/k8s/base/transactionhistory.yaml ##############
+
+# Copyright 2019 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: transactionhistory
+spec:
+  selector:
+    matchLabels:
+      app: transactionhistory
+  template:
+    metadata:
+      labels:
+        app: transactionhistory
+    spec:
+      serviceAccountName: default
+      terminationGracePeriodSeconds: 5
+      securityContext:
+        fsGroup: 1000
+        runAsGroup: 1000
+        runAsNonRoot: true
+        runAsUser: 1000
+      containers:
+      - name: transactionhistory
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - all
+          privileged: false
+          readOnlyRootFilesystem: true
+        image: transactionhistory
+        env:
+        - name: VERSION
+          value: "dev"
+        - name: PORT
+          value: "8080"
+        - name: ENABLE_TRACING
+          value: "true"
+        - name: ENABLE_METRICS
+          value: "true"
+        - name: POLL_MS
+          value: "100"
+        - name: CACHE_SIZE
+          value: "1000"
+        - name: CACHE_MINUTES
+          value: "60"
+        - name: HISTORY_LIMIT
+          value: "100"
+          # tell Java to obey container memory limits
+        - name: JVM_OPTS
+          value: "-XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -Xms256m -Xmx512m"
+        #- name: EXTRA_LATENCY_MILLIS
+        #  value: "5000"
+        # Valid levels are debug, info, warn, error, fatal.
+        # If no valid level is set, will default to info.
+        - name: LOG_LEVEL
+          value: "info"
+        - name: NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        envFrom:
+        - configMapRef:
+            name: environment-config
+        - configMapRef:
+            name: ledger-db-config
+        resources:
+          requests:
+            cpu: 100m
+            memory: 256Mi
+            ephemeral-storage: 0.5Gi
+          limits:
+            cpu: 500m
+            memory: 512Mi
+            ephemeral-storage: 0.5Gi
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 8080
+          initialDelaySeconds: 60
+          periodSeconds: 5
+          timeoutSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /healthy
+            port: 8080
+          initialDelaySeconds: 120
+          periodSeconds: 5
+          timeoutSeconds: 10
+        startupProbe:
+          httpGet:
+            path: /healthy
+            port: 8080
+          failureThreshold: 30
+          periodSeconds: 10
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: transactionhistory
+spec:
+  type: ClusterIP
+  selector:
+    app: transactionhistory
+  ports:
+  - name: http
+    port: 8080
+    targetPort: 8080
+
+############## ledger/transactionhistory/k8s/overlays/development/kustomization.yaml ##############
+
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../base
+components:
+  - ../../../../../components/development
+
+############## ledger/transactionhistory/k8s/overlays/production-fwi/kustomization.yaml ##############
+
+# Copyright 2024 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../base
+components:
+  - ../../../../../components/production
+  - ../../../../../components/backend-fwi
+  - ../../../../../components/cloud-sql-fwi
+
+
+############## ledger/transactionhistory/k8s/overlays/production/kustomization.yaml ##############
+
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../base
+components:
+  - ../../../../../components/production
+  - ../../../../../components/cloud-sql
+
+############## ledger/transactionhistory/k8s/overlays/staging/kustomization.yaml ##############
+
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../base
+components:
+  - ../../../../../components/staging
+  - ../../../../../components/cloud-sql
+
+############## ledger/transactionhistory/skaffold.yaml ##############
+
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: skaffold/v4beta1
+kind: Config
+metadata:
+  name: transactionhistory
+requires:
+- configs:
+  - e2e-tests
+  path: ../../../skaffold-e2e.yaml
+- configs:
+  - ledger-db
+  path: ../ledger-db/skaffold.yaml
+build:
+  artifacts:
+  - image: transactionhistory
+    context: ../../../
+    jib:
+      project: src/ledger/transactionhistory
+      type: maven
+  tagPolicy:
+    sha256: {}
+test:
+  - image: transactionhistory # code style
+    context: .
+    custom:
+      - command: ../../../mvnw checkstyle:check
+        timeoutSeconds: 1200
+  - image: transactionhistory # unit tests
+    context: .
+    custom:
+      - command: ../../../mvnw test
+        timeoutSeconds: 1200
+  - image: transactionhistory # code coverage
+    context: .
+    custom:
+      - command: |
+          ../../../mvnw jacoco:report
+          awk -F, \
+            '{ instructions += $4 + $5; covered += $5 } END \
+            { print covered, "/", instructions, " instructions covered"; \
+            print int(100*covered/instructions), "% covered" }' \
+            target/site/jacoco/jacoco.csv
+        timeoutSeconds: 1200
+deploy:
+  kubectl: {}
+profiles:
+- name: development
+  activation:
+  - command: dev
+  manifests:
+    kustomize:
+      paths:
+      - k8s/overlays/development
+      - ../../../iac/acm-multienv-cicd-anthos-autopilot/overlays/development
+- name: staging
+  manifests:
+    kustomize:
+      paths:
+      - k8s/overlays/staging
+- name: production
+  manifests:
+    kustomize:
+      paths:
+      - k8s/overlays/production
+- name: production-fwi
+  manifests:
+    kustomize:
+      paths:
+      - k8s/overlays/production-fwi
+
+
+############## ledgermonolith/config.yaml ##############
+
+
+# Copyright 2020 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: environment-config
+data:
+  LOCAL_ROUTING_NUM: "883745000"
+  PUB_KEY_PATH: "/tmp/.ssh/publickey"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: service-api-config
+data:
+  # Use Google Compute Engine Internal DNS addresses for ledgermonolith services
+  # https://cloud.google.com/compute/docs/internal-dns#instance-fully-qualified-domain-names
+  TRANSACTIONS_API_ADDR: "ledgermonolith-service.c.[PROJECT_ID].internal:8080"
+  BALANCES_API_ADDR: "ledgermonolith-service.c.[PROJECT_ID].internal:8080"
+  HISTORY_API_ADDR: "ledgermonolith-service.c.[PROJECT_ID].internal:8080"
+  CONTACTS_API_ADDR: "contacts:8080"
+  USERSERVICE_API_ADDR: "userservice:8080"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: demo-data-config
+data:
+  USE_DEMO_DATA: "True"
+  DEMO_LOGIN_USERNAME: "testuser"
+  # All demo user accounts are hardcoded to use the login password 'bankofanthos'
+  DEMO_LOGIN_PASSWORD: "bankofanthos"
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  annotations:
+    iam.gke.io/gcp-service-account: gke-workload-development@bank-of-anthos-ci.iam.gserviceaccount.com
+  name: bank-of-anthos
+
+############## loadgenerator/Dockerfile ##############
+
+# Copyright 2021 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Use the official Python docker container, slim version, running Debian
+FROM python:3.14.6-slim@sha256:44dd04494ee8f3b538294360e7c4b3acb87c8268e4d0a4828a6500b1eff50061 AS base
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /bin/uv
+
+FROM base AS builder
+
+# Set working directory
+WORKDIR /app
+
+# Install dependencies.
+COPY pyproject.toml uv.lock ./
+RUN uv sync --frozen --no-dev --no-install-project
+
+FROM base
+
+# Set our working directory
+WORKDIR /app
+
+COPY --from=builder /app/.venv /app/.venv
+ENV PATH="/app/.venv/bin:$PATH"
+
+# Add application code.
+COPY locustfile.py .
+
+# show python logs as they occur
+ENV PYTHONUNBUFFERED=0
+
+# enable gevent support in debugger
+ENV GEVENT_SUPPORT=True
+
+# explicitly set a fallback log level in case no log level is defined by Kubernetes
+ENV LOG_LEVEL=info
+
+# start loadgenerator
+ENTRYPOINT locust --host="http://${FRONTEND_ADDR}" --loglevel $LOG_LEVEL --headless --users="${USERS:-10}" 2>&1
+
+
+############## loadgenerator/k8s/base/kustomization.yaml ##############
+
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+commonLabels:
+  tier: test
+  team: loadgenerator
+resources:
+  - loadgenerator.yaml
+
+
+############## loadgenerator/k8s/base/loadgenerator.yaml ##############
+
+# Copyright 2020 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: loadgenerator
+spec:
+  selector:
+    matchLabels:
+      app: loadgenerator
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: loadgenerator
+      annotations:
+        sidecar.istio.io/rewriteAppHTTPProbers: "true"
+    spec:
+      serviceAccountName: default
+      terminationGracePeriodSeconds: 5
+      restartPolicy: Always
+      securityContext:
+        fsGroup: 1000
+        runAsGroup: 1000
+        runAsNonRoot: true
+        runAsUser: 1000
+      containers:
+      - name: loadgenerator
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - all
+          privileged: false
+          readOnlyRootFilesystem: true
+        image: loadgenerator
+        env:
+        - name: FRONTEND_ADDR
+          value: "frontend:80"
+        - name: USERS
+          value: "5"
+        - name: LOG_LEVEL
+          value: "error"
+        resources:
+          requests:
+            cpu: 100m
+            memory: 512Mi
+          limits:
+            cpu: 250m
+            memory: 1Gi
+
+############## loadgenerator/k8s/overlays/development/kustomization.yaml ##############
+
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../base
+components:
+  - ../../../../components/development
+
+
+############## loadgenerator/skaffold.yaml ##############
+
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: skaffold/v4beta1
+kind: Config
+metadata:
+  name: loadgenerator
+profiles:
+- name: development
+  build:
+    artifacts:
+    - image: loadgenerator
+      context: .
+    tagPolicy:
+      sha256: {}
+  manifests:
+    kustomize:
+      paths:
+      - k8s/overlays/development
+  deploy:
+    statusCheck: false
+    kubectl: {}
+
