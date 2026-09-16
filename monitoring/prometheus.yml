@@ -1,0 +1,38 @@
+global:
+  scrape_interval: 15s
+
+scrape_configs:
+  - job_name: frontend
+    static_configs:
+      - targets: ["frontend:8080"]
+
+  - job_name: userservice
+    static_configs:
+      - targets: ["userservice:8080"]
+
+  - job_name: contacts
+    static_configs:
+      - targets: ["contacts:8080"]
+
+  - job_name: ledgerwriter
+    metrics_path: /actuator/prometheus
+    static_configs:
+      - targets: ["ledgerwriter:8080"]
+
+  - job_name: balancereader
+    metrics_path: /actuator/prometheus
+    static_configs:
+      - targets: ["balancereader:8080"]
+
+  - job_name: transactionhistory
+    metrics_path: /actuator/prometheus
+    static_configs:
+      - targets: ["transactionhistory:8080"]
+
+  - job_name: accounts-db
+    static_configs:
+      - targets: ["accounts-db-exporter:9187"]
+
+  - job_name: ledger-db
+    static_configs:
+      - targets: ["ledger-db-exporter:9187"]

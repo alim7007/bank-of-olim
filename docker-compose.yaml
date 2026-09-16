@@ -1,0 +1,280 @@
+services:
+
+  accounts-db:
+    build:
+      context: ./src/accounts/accounts-db
+    environment:
+      POSTGRES_DB: accounts-db
+      POSTGRES_USER: accounts-admin
+      POSTGRES_PASSWORD: accounts-pwd
+      LOCAL_ROUTING_NUM: "883745000"
+      USE_DEMO_DATA: "True"
+    volumes:
+      - accounts-db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U accounts-admin -d accounts-db"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    networks:
+    - data-net
+
+  ledger-db:
+    build:
+      context: ./src/ledger/ledger-db
+    environment:
+      POSTGRES_DB: postgresdb
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password
+      LOCAL_ROUTING_NUM: "883745000"
+      USE_DEMO_DATA: "True"
+    volumes:
+      - ledger-db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin -d postgresdb"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    networks:
+    - data-net
+
+  accounts-db-exporter:
+    image: prometheuscommunity/postgres-exporter
+    environment:
+      DATA_SOURCE_NAME: "postgresql://accounts-admin:accounts-pwd@accounts-db:5432/accounts-db?sslmode=disable"
+    networks:
+      - data-net
+      - monitoring-net
+    depends_on:
+      accounts-db:
+        condition: service_healthy
+
+  ledger-db-exporter:
+    image: prometheuscommunity/postgres-exporter
+    environment:
+      DATA_SOURCE_NAME: "postgresql://admin:password@ledger-db:5432/postgresdb?sslmode=disable"
+    networks:
+      - data-net
+      - monitoring-net
+    depends_on:
+      ledger-db:
+        condition: service_healthy
+
+  userservice:
+    build:
+      context: ./src/accounts/userservice
+    environment:
+      VERSION: dev
+      PORT: "8080"
+      ENABLE_TRACING: "false"
+      TOKEN_EXPIRY_SECONDS: "3600"
+      LOG_LEVEL: info
+      LOCAL_ROUTING_NUM: "883745000"
+      PRIV_KEY_PATH: /tmp/.ssh/privatekey
+      PUB_KEY_PATH: /tmp/.ssh/publickey
+
+      ACCOUNTS_DB_URI: postgresql://accounts-admin:accounts-pwd@accounts-db:5432/accounts-db
+    volumes:
+      - ./local-dev/jwt/privatekey:/tmp/.ssh/privatekey:ro
+      - ./local-dev/jwt/publickey:/tmp/.ssh/publickey:ro
+    depends_on:
+      accounts-db:
+        condition: service_healthy
+    networks:
+    - app-net
+    - data-net
+
+  contacts:
+    build:
+      context: ./src/accounts/contacts
+    environment:
+      VERSION: dev
+      PORT: "8080"
+      ENABLE_TRACING: "false"
+      LOG_LEVEL: info
+
+      LOCAL_ROUTING_NUM: "883745000"
+      PUB_KEY_PATH: /tmp/.ssh/publickey
+
+      ACCOUNTS_DB_URI: postgresql://accounts-admin:accounts-pwd@accounts-db:5432/accounts-db
+    volumes:
+      - ./local-dev/jwt/publickey:/tmp/.ssh/publickey:ro
+    depends_on:
+      accounts-db:
+        condition: service_healthy
+    networks:
+    - app-net
+    - data-net
+
+  ledgerwriter:
+    image: bank-of-olim/ledgerwriter:local
+    # hostname: ledgerwriter-local
+    environment:
+      VERSION: v0.6.10
+      PORT: "8080"
+      ENABLE_TRACING: "false"
+      ENABLE_METRICS: "false"
+      LOG_LEVEL: info
+      NAMESPACE: local
+
+      LOCAL_ROUTING_NUM: "883745000"
+      PUB_KEY_PATH: /tmp/.ssh/publickey
+
+      SPRING_DATASOURCE_URL: jdbc:postgresql://ledger-db:5432/postgresdb
+      SPRING_DATASOURCE_USERNAME: admin
+      SPRING_DATASOURCE_PASSWORD: password
+
+      BALANCES_API_ADDR: balancereader:8080
+      TRANSACTIONS_API_ADDR: ledgerwriter:8080
+      HISTORY_API_ADDR: transactionhistory:8080
+      CONTACTS_API_ADDR: contacts:8080
+      USERSERVICE_API_ADDR: userservice:8080
+    volumes:
+      - ./local-dev/jwt/publickey:/tmp/.ssh/publickey:ro
+    depends_on:
+      ledger-db:
+        condition: service_healthy
+    networks:
+    - app-net
+    - data-net
+
+  balancereader:
+    image: bank-of-olim/balancereader:local
+    # hostname: balancereader-local
+    environment:
+      VERSION: v0.6.10
+      PORT: "8080"
+      ENABLE_TRACING: "false"
+      ENABLE_METRICS: "false"
+      POLL_MS: "100"
+      CACHE_SIZE: "1000000"
+      LOG_LEVEL: info
+      NAMESPACE: local
+
+      LOCAL_ROUTING_NUM: "883745000"
+      PUB_KEY_PATH: /tmp/.ssh/publickey
+
+      SPRING_DATASOURCE_URL: jdbc:postgresql://ledger-db:5432/postgresdb
+      SPRING_DATASOURCE_USERNAME: admin
+      SPRING_DATASOURCE_PASSWORD: password
+    volumes:
+      - ./local-dev/jwt/publickey:/tmp/.ssh/publickey:ro
+    depends_on:
+      ledger-db:
+        condition: service_healthy
+    networks:
+    - app-net
+    - data-net
+
+  transactionhistory:
+    image: bank-of-olim/transactionhistory:local
+    # hostname: transactionhistory-local
+    environment:
+      VERSION: v0.6.10
+      PORT: "8080"
+      ENABLE_TRACING: "false"
+      ENABLE_METRICS: "false"
+      POLL_MS: "100"
+      CACHE_SIZE: "1000"
+      CACHE_MINUTES: "60"
+      HISTORY_LIMIT: "100"
+      LOG_LEVEL: info
+      NAMESPACE: local
+
+      LOCAL_ROUTING_NUM: "883745000"
+      PUB_KEY_PATH: /tmp/.ssh/publickey
+
+      SPRING_DATASOURCE_URL: jdbc:postgresql://ledger-db:5432/postgresdb
+      SPRING_DATASOURCE_USERNAME: admin
+      SPRING_DATASOURCE_PASSWORD: password
+    volumes:
+      - ./local-dev/jwt/publickey:/tmp/.ssh/publickey:ro
+    depends_on:
+      ledger-db:
+        condition: service_healthy
+    networks:
+    - app-net
+    - data-net
+
+  frontend:
+    build:
+      context: ./src/frontend
+    ports:
+      - "8080:8080"
+    environment:
+      VERSION: dev
+      PORT: "8080"
+      ENABLE_TRACING: "false"
+      SCHEME: http
+      LOG_LEVEL: info
+
+      ENV_PLATFORM: local
+      CLUSTER_NAME: docker-compose
+      POD_ZONE: local
+      METADATA_SERVER: "127.0.0.1:9"
+
+      DEFAULT_USERNAME: testuser
+      DEFAULT_PASSWORD: bankofanthos
+
+      LOCAL_ROUTING_NUM: "883745000"
+      PUB_KEY_PATH: /tmp/.ssh/publickey
+
+      TRANSACTIONS_API_ADDR: ledgerwriter:8080
+      BALANCES_API_ADDR: balancereader:8080
+      HISTORY_API_ADDR: transactionhistory:8080
+      CONTACTS_API_ADDR: contacts:8080
+      USERSERVICE_API_ADDR: userservice:8080
+    volumes:
+      - ./local-dev/jwt/publickey:/tmp/.ssh/publickey:ro
+    depends_on:
+      - userservice
+      - contacts
+      - ledgerwriter
+      - balancereader
+      - transactionhistory
+    networks:
+    - app-net
+
+  loadgenerator:
+    profiles: ["load"]
+    build:
+      context: ./src/loadgenerator
+    environment:
+      FRONTEND_ADDR: frontend:8080
+      USERS: "5"
+      LOG_LEVEL: error
+    depends_on:
+      - frontend
+
+  prometheus:
+    image: prom/prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    networks:
+    - app-net
+    - monitoring-net
+
+  grafana:
+    image: grafana/grafana
+    ports:
+      - "3000:3000"
+    depends_on:
+      - prometheus
+    networks:
+    - monitoring-net
+
+volumes:
+  accounts-db-data:
+  ledger-db-data:
+
+networks:
+  app-net:
+    driver: bridge
+
+  data-net:
+    driver: bridge
+
+  monitoring-net:
+    driver: bridge
