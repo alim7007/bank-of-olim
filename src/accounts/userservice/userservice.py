@@ -39,12 +39,21 @@ from opentelemetry.instrumentation.flask import FlaskInstrumentor
 
 from db import UserDb
 
+from prometheus_flask_exporter import PrometheusMetrics
+
 def create_app():
     """Flask application factory to create instances
     of the Userservice Flask App
     """
     app = Flask(__name__)
 
+    metrics = PrometheusMetrics(app)
+    metrics.info(
+        'app_info',
+        'Application information',
+        service='userservice',
+        version=os.environ.get('VERSION', 'unknown')
+    )
     # Disabling unused-variable for lines with route decorated functions
     # as pylint thinks they are unused
     # pylint: disable=unused-variable

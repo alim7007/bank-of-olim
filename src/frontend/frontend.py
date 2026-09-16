@@ -45,6 +45,8 @@ from opentelemetry.instrumentation.jinja2 import Jinja2Instrumentor
 from api_call import ApiCall, ApiRequest
 from traced_thread_pool_executor import TracedThreadPoolExecutor
 
+from prometheus_flask_exporter import PrometheusMetrics
+
 # Local constants
 BALANCE_NAME = "balance"
 CONTACTS_NAME = "contacts"
@@ -57,6 +59,14 @@ def create_app():
     of the Frontend Flask App
     """
     app = Flask(__name__)
+
+    metrics = PrometheusMetrics(app)
+    metrics.info(
+        'app_info',
+        'Application information',
+        service='frontend',
+        version=os.environ.get('VERSION', 'unknown')
+    )
 
     # Disabling unused-variable for lines with route decorated functions
     # as pylint thinks they are unused
