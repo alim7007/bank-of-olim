@@ -1,0 +1,234 @@
+version: "3.8"
+
+services:
+
+  accounts-db:
+    image: ghcr.io/alim7007/bank-of-olim-accounts-db:c96beab70bbd9bd5b2079281c0c240ea7eeda9fd
+    environment:
+      POSTGRES_DB: accounts-db
+      POSTGRES_USER: accounts-admin
+      POSTGRES_PASSWORD: accounts-pwd
+      LOCAL_ROUTING_NUM: "883745000"
+      USE_DEMO_DATA: "True"
+    volumes:
+      - accounts-db-data:/var/lib/postgresql/data
+    networks:
+      - data-net
+    deploy:
+      placement:
+        constraints:
+          - node.labels.accountsdb == true
+      restart_policy:
+        condition: any
+        delay: 5s
+
+  ledger-db:
+    image: ghcr.io/alim7007/bank-of-olim-ledger-db:c96beab70bbd9bd5b2079281c0c240ea7eeda9fd
+    environment:
+      POSTGRES_DB: postgresdb
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password
+      LOCAL_ROUTING_NUM: "883745000"
+      USE_DEMO_DATA: "True"
+    volumes:
+      - ledger-db-data:/var/lib/postgresql/data
+    networks:
+      - data-net
+    deploy:
+      placement:
+        constraints:
+          - node.labels.ledgerdb == true
+      restart_policy:
+        condition: any
+        delay: 5s
+
+  userservice:
+    image: ghcr.io/alim7007/bank-of-olim-userservice:c96beab70bbd9bd5b2079281c0c240ea7eeda9fd
+    environment:
+      VERSION: dev
+      PORT: "8080"
+      ENABLE_TRACING: "false"
+      TOKEN_EXPIRY_SECONDS: "3600"
+      LOG_LEVEL: info
+      LOCAL_ROUTING_NUM: "883745000"
+
+      PRIV_KEY_PATH: /run/secrets/jwt_private
+      PUB_KEY_PATH: /run/secrets/jwt_public
+
+      ACCOUNTS_DB_URI: postgresql://accounts-admin:accounts-pwd@accounts-db:5432/accounts-db
+    secrets:
+      - jwt_private
+      - jwt_public
+    networks:
+      - app-net
+      - data-net
+    deploy:
+      restart_policy:
+        condition: any
+        delay: 5s
+
+  contacts:
+    image: ghcr.io/alim7007/bank-of-olim-contacts:c96beab70bbd9bd5b2079281c0c240ea7eeda9fd
+    environment:
+      VERSION: dev
+      PORT: "8080"
+      ENABLE_TRACING: "false"
+      LOG_LEVEL: info
+      LOCAL_ROUTING_NUM: "883745000"
+
+      PUB_KEY_PATH: /run/secrets/jwt_public
+
+      ACCOUNTS_DB_URI: postgresql://accounts-admin:accounts-pwd@accounts-db:5432/accounts-db
+    secrets:
+      - jwt_public
+    networks:
+      - app-net
+      - data-net
+    deploy:
+      restart_policy:
+        condition: any
+        delay: 5s
+
+  ledgerwriter:
+    image: ghcr.io/alim7007/bank-of-olim-ledgerwriter:c96beab70bbd9bd5b2079281c0c240ea7eeda9fd
+    environment:
+      VERSION: v0.6.10
+      PORT: "8080"
+      ENABLE_TRACING: "false"
+      ENABLE_METRICS: "false"
+      LOG_LEVEL: info
+      NAMESPACE: local
+
+      LOCAL_ROUTING_NUM: "883745000"
+      PUB_KEY_PATH: /run/secrets/jwt_public
+
+      SPRING_DATASOURCE_URL: jdbc:postgresql://ledger-db:5432/postgresdb
+      SPRING_DATASOURCE_USERNAME: admin
+      SPRING_DATASOURCE_PASSWORD: password
+
+      BALANCES_API_ADDR: balancereader:8080
+      TRANSACTIONS_API_ADDR: ledgerwriter:8080
+      HISTORY_API_ADDR: transactionhistory:8080
+      CONTACTS_API_ADDR: contacts:8080
+      USERSERVICE_API_ADDR: userservice:8080
+    secrets:
+      - jwt_public
+    networks:
+      - app-net
+      - data-net
+    deploy:
+      restart_policy:
+        condition: any
+        delay: 5s
+
+  balancereader:
+    image: ghcr.io/alim7007/bank-of-olim-balancereader:c96beab70bbd9bd5b2079281c0c240ea7eeda9fd
+    environment:
+      VERSION: v0.6.10
+      PORT: "8080"
+      ENABLE_TRACING: "false"
+      ENABLE_METRICS: "false"
+      POLL_MS: "100"
+      CACHE_SIZE: "1000000"
+      LOG_LEVEL: info
+      NAMESPACE: local
+
+      LOCAL_ROUTING_NUM: "883745000"
+      PUB_KEY_PATH: /run/secrets/jwt_public
+
+      SPRING_DATASOURCE_URL: jdbc:postgresql://ledger-db:5432/postgresdb
+      SPRING_DATASOURCE_USERNAME: admin
+      SPRING_DATASOURCE_PASSWORD: password
+    secrets:
+      - jwt_public
+    networks:
+      - app-net
+      - data-net
+    deploy:
+      restart_policy:
+        condition: any
+        delay: 5s
+
+  transactionhistory:
+    image: ghcr.io/alim7007/bank-of-olim-transactionhistory:c96beab70bbd9bd5b2079281c0c240ea7eeda9fd
+    environment:
+      VERSION: v0.6.10
+      PORT: "8080"
+      ENABLE_TRACING: "false"
+      ENABLE_METRICS: "false"
+      POLL_MS: "100"
+      CACHE_SIZE: "1000"
+      CACHE_MINUTES: "60"
+      HISTORY_LIMIT: "100"
+      LOG_LEVEL: info
+      NAMESPACE: local
+
+      LOCAL_ROUTING_NUM: "883745000"
+      PUB_KEY_PATH: /run/secrets/jwt_public
+
+      SPRING_DATASOURCE_URL: jdbc:postgresql://ledger-db:5432/postgresdb
+      SPRING_DATASOURCE_USERNAME: admin
+      SPRING_DATASOURCE_PASSWORD: password
+    secrets:
+      - jwt_public
+    networks:
+      - app-net
+      - data-net
+    deploy:
+      restart_policy:
+        condition: any
+        delay: 5s
+
+  frontend:
+    image: ghcr.io/alim7007/bank-of-olim-frontend:c96beab70bbd9bd5b2079281c0c240ea7eeda9fd
+    ports:
+      - "8080:8080"
+    environment:
+      VERSION: dev
+      PORT: "8080"
+      ENABLE_TRACING: "false"
+      SCHEME: http
+      LOG_LEVEL: info
+
+      ENV_PLATFORM: local
+      CLUSTER_NAME: docker-swarm
+      POD_ZONE: local
+      METADATA_SERVER: "127.0.0.1:9"
+
+      DEFAULT_USERNAME: testuser
+      DEFAULT_PASSWORD: bankofanthos
+
+      LOCAL_ROUTING_NUM: "883745000"
+      PUB_KEY_PATH: /run/secrets/jwt_public
+
+      TRANSACTIONS_API_ADDR: ledgerwriter:8080
+      BALANCES_API_ADDR: balancereader:8080
+      HISTORY_API_ADDR: transactionhistory:8080
+      CONTACTS_API_ADDR: contacts:8080
+      USERSERVICE_API_ADDR: userservice:8080
+    secrets:
+      - jwt_public
+    networks:
+      - app-net
+    deploy:
+      restart_policy:
+        condition: any
+        delay: 5s
+
+volumes:
+  accounts-db-data:
+  ledger-db-data:
+
+networks:
+  app-net:
+    driver: overlay
+
+  data-net:
+    driver: overlay
+
+secrets:
+  jwt_private:
+    external: true
+
+  jwt_public:
+    external: true
