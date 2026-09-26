@@ -2,37 +2,99 @@ global:
   scrape_interval: 15s
 
 scrape_configs:
+
+  # Сам Prometheus
+  - job_name: prometheus
+    static_configs:
+      - targets:
+          - "prometheus:9090"
+
+
+  # -------------------------
+  # APPLICATION
+  # -------------------------
+
+  # Python frontend.
+  # Если metrics_path не указан,
+  # Prometheus использует /metrics.
   - job_name: frontend
     static_configs:
-      - targets: ["frontend:8080"]
+      - targets:
+          - "bank_frontend:8080"
 
+
+  # Userservice.
   - job_name: userservice
     static_configs:
-      - targets: ["userservice:8080"]
+      - targets:
+          - "bank_userservice:8080"
 
+
+  # Contacts.
   - job_name: contacts
     static_configs:
-      - targets: ["contacts:8080"]
+      - targets:
+          - "bank_contacts:8080"
 
+
+  # Java LedgerWriter.
+  # Spring Boot Prometheus metrics.
   - job_name: ledgerwriter
     metrics_path: /actuator/prometheus
     static_configs:
-      - targets: ["ledgerwriter:8080"]
+      - targets:
+          - "bank_ledgerwriter:8080"
 
+
+  # Java BalanceReader.
   - job_name: balancereader
     metrics_path: /actuator/prometheus
     static_configs:
-      - targets: ["balancereader:8080"]
+      - targets:
+          - "bank_balancereader:8080"
 
+
+  # Java TransactionHistory.
   - job_name: transactionhistory
     metrics_path: /actuator/prometheus
     static_configs:
-      - targets: ["transactionhistory:8080"]
+      - targets:
+          - "bank_transactionhistory:8080"
+
+
+  # -------------------------
+  # POSTGRESQL
+  # -------------------------
 
   - job_name: accounts-db
     static_configs:
-      - targets: ["accounts-db-exporter:9187"]
+      - targets:
+          - "accounts-db-exporter:9187"
+
 
   - job_name: ledger-db
     static_configs:
-      - targets: ["ledger-db-exporter:9187"]
+      - targets:
+          - "ledger-db-exporter:9187"
+
+
+  # -------------------------
+  # SERVERS / VMs
+  # -------------------------
+
+  # tasks.<service> означает:
+  # дай Prometheus адрес каждого Node Exporter task.
+  #
+  # У нас global service:
+  # manager  -> exporter
+  # worker1  -> exporter
+  # worker2  -> exporter
+  - job_name: node-exporter
+
+    dns_sd_configs:
+      - names:
+          - "tasks.node-exporter"
+
+        type: A
+        port: 9100
+        refresh_interval: 15s

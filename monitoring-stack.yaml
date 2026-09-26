@@ -249,7 +249,7 @@ configs:
   # Берём Prometheus config из Git repo
   # и Docker Swarm сам передаст его контейнеру.
   prometheus-config:
-    file: ./monitoring/prometheus-swarm.yml
+    file: ./monitoring/prometheus.yaml
 
   # То же самое для Grafana datasource.
   grafana-datasource:
