@@ -258,4 +258,4 @@ configs:
 
   # То же самое для Grafana datasource.
   grafana-datasource:
-    file: ./monitoring/grafana-datasource.yml
+    file: ./monitoring/grafana-datasource.yaml
