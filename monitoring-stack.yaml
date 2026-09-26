@@ -146,6 +146,7 @@ services:
 
     networks:
       - monitoring-net
+      - bank-app-net
 
     deploy:
 
@@ -238,6 +239,10 @@ networks:
   bank-data-net:
     external: true
     name: bank_data-net
+
+  bank-app-net:
+    external: true
+    name: bank_app-net
 
 
 # ==============================================================

@@ -11,6 +11,8 @@ datasources:
     # Тип datasource.
     type: prometheus
 
+    access: proxy
+
     # Адрес Prometheus внутри monitoring overlay network.
     url: http://prometheus:9090
 
