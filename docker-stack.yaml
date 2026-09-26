@@ -95,8 +95,7 @@ services:
       VERSION: v0.6.10
       PORT: "8080"
       ENABLE_TRACING: "false"
-      ENABLE_METRICS: "false"
-      MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE: "health,info,prometheus"
+      ENABLE_METRICS: "true"
       LOG_LEVEL: info
       NAMESPACE: local
 
@@ -128,8 +127,7 @@ services:
       VERSION: v0.6.10
       PORT: "8080"
       ENABLE_TRACING: "false"
-      ENABLE_METRICS: "false"
-      MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE: "health,info,prometheus"
+      ENABLE_METRICS: "true"
       POLL_MS: "100"
       CACHE_SIZE: "1000000"
       LOG_LEVEL: info
@@ -157,8 +155,7 @@ services:
       VERSION: v0.6.10
       PORT: "8080"
       ENABLE_TRACING: "false"
-      ENABLE_METRICS: "false"
-      MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE: "health,info,prometheus"
+      ENABLE_METRICS: "true"
       POLL_MS: "100"
       CACHE_SIZE: "1000"
       CACHE_MINUTES: "60"
