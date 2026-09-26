@@ -1,0 +1,256 @@
+version: "3.8"
+
+services:
+
+  # ------------------------------------------------------------
+  # NODE EXPORTER
+  # По одному контейнеру на КАЖДОЙ Swarm node.
+  # Собирает CPU, RAM, disk, filesystem, network самой VM.
+  # ------------------------------------------------------------
+  node-exporter:
+
+    # Готовый официальный image Node Exporter.
+    image: quay.io/prometheus/node-exporter:v1.12.1
+
+    # Внутри контейнера настоящий root filesystem VM будет /host.
+    command:
+      - --path.rootfs=/host
+
+    # Даём exporter read-only доступ к filesystem самой VM.
+    volumes:
+      - /:/host:ro,rslave
+
+    # 9100 — стандартный порт Node Exporter.
+    # mode: host означает:
+    # manager_IP:9100  -> exporter manager
+    # worker1_IP:9100  -> exporter worker1
+    # worker2_IP:9100  -> exporter worker2
+    ports:
+      - target: 9100
+        published: 9100
+        protocol: tcp
+        mode: host
+
+    # Все monitoring containers соединяем этой overlay-сетью.
+    networks:
+      - monitoring-net
+
+    deploy:
+
+      # GLOBAL = ровно один Node Exporter на каждой Swarm node.
+      mode: global
+
+      # Если exporter упал — Swarm его запускает снова.
+      restart_policy:
+        condition: any
+
+
+  # ------------------------------------------------------------
+  # ACCOUNTS POSTGRES EXPORTER
+  # Подключается к accounts-db и превращает PostgreSQL stats
+  # в Prometheus metrics.
+  # ------------------------------------------------------------
+  accounts-db-exporter:
+
+    image: quay.io/prometheuscommunity/postgres-exporter:v0.20.1
+
+    environment:
+
+      # К какой PostgreSQL подключаться.
+      # bank_accounts-db — имя Swarm service базы.
+      DATA_SOURCE_URI: "bank_accounts-db:5432/accounts-db?sslmode=disable"
+
+      # PostgreSQL username.
+      DATA_SOURCE_USER: "accounts-admin"
+
+      # PostgreSQL password.
+      DATA_SOURCE_PASS: "accounts-pwd"
+
+    networks:
+
+      # Через эту сеть Prometheus видит exporter.
+      - monitoring-net
+
+      # Через эту сеть exporter видит настоящую accounts-db.
+      - bank-data-net
+
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: any
+
+
+  # ------------------------------------------------------------
+  # LEDGER POSTGRES EXPORTER
+  # То же самое, но для ledger-db.
+  # ------------------------------------------------------------
+  ledger-db-exporter:
+
+    image: quay.io/prometheuscommunity/postgres-exporter:v0.20.1
+
+    environment:
+
+      # База postgresdb внутри ledger-db.
+      DATA_SOURCE_URI: "bank_ledger-db:5432/postgresdb?sslmode=disable"
+
+      DATA_SOURCE_USER: "admin"
+
+      DATA_SOURCE_PASS: "password"
+
+    networks:
+      - monitoring-net
+      - bank-data-net
+
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: any
+
+
+  # ------------------------------------------------------------
+  # PROMETHEUS
+  # Центральный сервер metrics.
+  # Он ходит к exporters и регулярно забирает /metrics.
+  # ------------------------------------------------------------
+  prometheus:
+
+    image: prom/prometheus:v3.14.0
+
+    command:
+
+      # Где находится конфигурация Prometheus.
+      - --config.file=/etc/prometheus/prometheus.yml
+
+      # Куда Prometheus будет сохранять собранные metrics.
+      - --storage.tsdb.path=/prometheus
+
+      # Хранить metrics 15 дней.
+      - --storage.tsdb.retention.time=15d
+
+    # Наш prometheus-swarm.yml попадёт внутрь контейнера
+    # через Docker Swarm Config.
+    configs:
+      - source: prometheus-config
+        target: /etc/prometheus/prometheus.yml
+
+    # Metrics должны переживать restart Prometheus.
+    volumes:
+      - prometheus-data:/prometheus
+
+    # Открываем Web UI Prometheus на порту 9090.
+    ports:
+      - target: 9090
+        published: 9090
+        protocol: tcp
+        mode: ingress
+
+    networks:
+      - monitoring-net
+
+    deploy:
+
+      # Prometheus хранит данные локально.
+      # Поэтому пока держим его на manager.
+      placement:
+        constraints:
+          - node.role == manager
+
+      restart_policy:
+        condition: any
+
+
+  # ------------------------------------------------------------
+  # GRAFANA
+  # UI поверх Prometheus.
+  # Здесь будем видеть dashboards.
+  # ------------------------------------------------------------
+  grafana:
+
+    image: grafana/grafana:13.2.2
+
+    environment:
+
+      # Login в Grafana.
+      GF_SECURITY_ADMIN_USER: admin
+
+      # Password для нашего lab.
+      GF_SECURITY_ADMIN_PASSWORD: admin
+
+    # Автоматически добавляем Prometheus как datasource.
+    configs:
+      - source: grafana-datasource
+        target: /etc/grafana/provisioning/datasources/prometheus.yml
+
+    # Сохраняем dashboards/users/settings после restart.
+    volumes:
+      - grafana-data:/var/lib/grafana
+
+    # Grafana будет доступна с Mac:
+    # http://MANAGER_IP:3000
+    ports:
+      - target: 3000
+        published: 3000
+        protocol: tcp
+        mode: ingress
+
+    networks:
+      - monitoring-net
+
+    deploy:
+
+      # Как и Prometheus, пока держим Grafana на manager.
+      placement:
+        constraints:
+          - node.role == manager
+
+      restart_policy:
+        condition: any
+
+
+# ==============================================================
+# VOLUMES
+# ==============================================================
+
+volumes:
+
+  # Здесь Prometheus хранит time-series metrics.
+  prometheus-data:
+
+  # Здесь Grafana хранит своё состояние.
+  grafana-data:
+
+
+# ==============================================================
+# NETWORKS
+# ==============================================================
+
+networks:
+
+  # Новая overlay network только для monitoring.
+  # Docker Stack создаст её САМ.
+  monitoring-net:
+    driver: overlay
+
+  # Эта сеть УЖЕ существует,
+  # потому что её создал наш bank stack.
+  #
+  # Monitoring stack не создаёт её заново.
+  bank-data-net:
+    external: true
+    name: bank_data-net
+
+
+# ==============================================================
+# SWARM CONFIGS
+# ==============================================================
+
+configs:
+
+  # Берём Prometheus config из Git repo
+  # и Docker Swarm сам передаст его контейнеру.
+  prometheus-config:
+    file: ./monitoring/prometheus-swarm.yml
+
+  # То же самое для Grafana datasource.
+  grafana-datasource:
+    file: ./monitoring/grafana-datasource.yml

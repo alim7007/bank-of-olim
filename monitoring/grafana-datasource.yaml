@@ -1,0 +1,21 @@
+# Версия Grafana provisioning API.
+apiVersion: 1
+
+
+# Datasources, которые Grafana должна создать автоматически.
+datasources:
+
+  # Имя datasource внутри Grafana.
+  - name: Prometheus
+
+    # Тип datasource.
+    type: prometheus
+
+    # Адрес Prometheus внутри monitoring overlay network.
+    url: http://prometheus:9090
+
+    # Сделать его datasource по умолчанию.
+    isDefault: true
+
+    # Разрешить менять настройки через Grafana UI.
+    editable: true
