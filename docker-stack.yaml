@@ -114,8 +114,10 @@ services:
     secrets:
       - jwt_public
     networks:
-      - app-net
-      - data-net
+      app-net:
+        aliases:
+          - bank-ledgerwriter
+      data-net:
     deploy:
       restart_policy:
         condition: any
@@ -142,8 +144,10 @@ services:
     secrets:
       - jwt_public
     networks:
-      - app-net
-      - data-net
+      app-net:
+        aliases:
+          - bank-balancereader
+      data-net:
     deploy:
       restart_policy:
         condition: any
@@ -172,8 +176,10 @@ services:
     secrets:
       - jwt_public
     networks:
-      - app-net
-      - data-net
+      app-net:
+        aliases:
+          - bank-transactionhistory
+      data-net:
     deploy:
       restart_policy:
         condition: any

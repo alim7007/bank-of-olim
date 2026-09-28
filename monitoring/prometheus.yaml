@@ -44,7 +44,7 @@ scrape_configs:
     metrics_path: /actuator/prometheus
     static_configs:
       - targets:
-          - "bank_ledgerwriter:8080"
+          - "bank-ledgerwriter:8080"
 
 
   # Java BalanceReader.
@@ -52,7 +52,7 @@ scrape_configs:
     metrics_path: /actuator/prometheus
     static_configs:
       - targets:
-          - "bank_balancereader:8080"
+          - "bank-balancereader:8080"
 
 
   # Java TransactionHistory.
@@ -60,7 +60,7 @@ scrape_configs:
     metrics_path: /actuator/prometheus
     static_configs:
       - targets:
-          - "bank_transactionhistory:8080"
+          - "bank-transactionhistory:8080"
 
 
   # -------------------------
